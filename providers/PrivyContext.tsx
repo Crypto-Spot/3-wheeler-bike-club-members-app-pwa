@@ -23,7 +23,7 @@ export function PrivyContext ({ children }: Props) {
                 appearance: {
                     theme: "dark",
                     accentColor: "#E2C837",
-                    logo: "https://i.ibb.co/mttPXst/susuclub.png",
+                    logo: "https://i.ibb.co/1R7dngG/3-Wheeler-Logo-Horizontal-4x.png",
                     showWalletLoginFirst: true,
 
                 },

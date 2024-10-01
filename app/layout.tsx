@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { PrivyContext } from "@/providers/PrivyContext";
@@ -17,6 +17,10 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "3 Wheeler Bike Club | Ownership, Community & Governance",
   description: "Official Members Website of the 3 Wheeler Bike Club",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
