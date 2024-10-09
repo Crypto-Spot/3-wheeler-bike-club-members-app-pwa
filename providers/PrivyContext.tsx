@@ -18,21 +18,28 @@ export function PrivyContext ({ children }: Props) {
             appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
             config={{
                 /* Replace this with your desired login methods */
-                loginMethods: ["sms"],
+                loginMethods: ["sms","wallet"],
                 /* Replace this with your desired appearance configuration */
                 appearance: {
                     theme: "dark",
                     accentColor: "#E2C837",
                     logo: "https://i.ibb.co/1R7dngG/3-Wheeler-Logo-Horizontal-4x.png",
                     showWalletLoginFirst: true,
+                        walletList: ["coinbase_wallet"], 
 
                 },
                 defaultChain: base,
                 supportedChains: [base],
                 embeddedWallets: {
-                    createOnLogin: "all-users",
+                    createOnLogin: "users-without-wallets",
                     noPromptOnSignature: true
                 },     
+                externalWallets: { 
+                    coinbaseWallet: { 
+                      // Valid connection options include "eoaOnly" (default), "smartWalletOnly", or "all"
+                      connectionOptions: "smartWalletOnly", 
+                    },
+                }, 
             }}
         >
             <SmartWalletsProvider>{children}</SmartWalletsProvider>
