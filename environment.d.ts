@@ -4,6 +4,7 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             NEXT_PUBLIC_PRIVY_APP_ID: string
+            PRIVATE_KEY: `0x${string}`
         }
     }
 }
