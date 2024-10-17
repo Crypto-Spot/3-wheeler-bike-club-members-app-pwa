@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coinbase/onchainkit": "^0.34.0",
     "@ducanh2912/next-pwa": "^10.2.9",
-    "@privy-io/react-auth": "^1.88.0",
+    "@privy-io/react-auth": "^1.91.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
@@ -21,7 +22,7 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "viem": "^2.21.15"
+    "viem": "^2.21.28"
   },
   "devDependencies": {
     "@types/node": "^20",

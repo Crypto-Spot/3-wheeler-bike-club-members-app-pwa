@@ -6,21 +6,16 @@ import { useLogin } from "@privy-io/react-auth";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
-import { feeDrip } from "@/utils/basenames/feeDrip";
 
 
 export function Login() {
     const router = useRouter()
     
-    const { ready, authenticated, user } = usePrivy()
+    const { ready, authenticated } = usePrivy()
 
     const { login } = useLogin({
-        onComplete: ( wasAlreadyAuthenticated, isNewUser) => {
-            console.log( isNewUser )
-            if (isNewUser) {
-                const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
-                feeDrip(smartWallet?.address as `0x${string}`)
-            }     
+        onComplete: ( wasAlreadyAuthenticated ) => {
+
             setWasAuthenticated(wasAlreadyAuthenticated);        
         }
     })

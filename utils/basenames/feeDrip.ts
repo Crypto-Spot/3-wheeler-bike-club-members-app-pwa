@@ -1,3 +1,5 @@
+"use server"
+
 import { parseEther } from "viem"
 import { publicClient, walletClient } from "../client"
 

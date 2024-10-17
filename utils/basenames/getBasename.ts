@@ -1,6 +1,35 @@
-import { encodeFunctionData } from "viem";
+import { Basename } from "@coinbase/onchainkit/identity";
+import { encodeFunctionData, namehash } from "viem";
+import { base, baseSepolia } from "viem/chains";
+import L2Resolver from "../abi/L2Resolver";
 
-export async function getBasename ( name: string, owner: `0x${string}`, duration: bigint, resolver: `0x${string}`, data: `0x${string}`[] ) {
+export const USERNAME_DOMAINS: Record<number, string> = {
+    [baseSepolia.id]: 'basetest.eth',
+    [base.id]: 'base.eth',
+};
+export const formatBaseEthDomain = (name: string, chainId: number): Basename => {
+    return `${name}.${USERNAME_DOMAINS[chainId] ?? '.base.eth'}`.toLocaleLowerCase() as Basename;
+};
+
+
+
+export async function getBasename ( name: string, owner: `0x${string}`, duration: bigint, resolver: `0x${string}` ) {
+    
+    const addressData = encodeFunctionData({
+        abi: L2Resolver,
+        functionName: 'setAddr',
+        args: [namehash(formatBaseEthDomain(name, base.id)), owner],
+    });
+    
+    const nameData = encodeFunctionData({
+        abi: L2Resolver,
+        functionName: 'setName',
+        args: [
+          namehash(formatBaseEthDomain(name, base.id)),
+          formatBaseEthDomain(name, base.id),
+        ],
+    });
+
     const getBasenameData = encodeFunctionData({
         abi: [
             {
@@ -30,7 +59,7 @@ export async function getBasename ( name: string, owner: `0x${string}`, duration
             owner: (owner), 
             duration: (duration), 
             resolver: (resolver), 
-            data: (data), 
+            data: ([addressData, nameData]), 
             reverseRecord: true
         }]
     })
