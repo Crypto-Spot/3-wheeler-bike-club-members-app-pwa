@@ -2,6 +2,8 @@ import { Basename } from "@coinbase/onchainkit/identity";
 import { encodeFunctionData, namehash } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import L2Resolver from "../abi/L2Resolver";
+import { bigint } from "zod";
+import { basenameResolver } from "../constants/addresses";
 
 export const USERNAME_DOMAINS: Record<number, string> = {
     [baseSepolia.id]: 'basetest.eth',
@@ -13,7 +15,7 @@ export const formatBaseEthDomain = (name: string, chainId: number): Basename => 
 
 
 
-export async function getBasename ( name: string, owner: `0x${string}`, duration: bigint, resolver: `0x${string}` ) {
+export async function getBasename ( name: string, owner: `0x${string}` ) {
     
     const addressData = encodeFunctionData({
         abi: L2Resolver,
@@ -57,10 +59,11 @@ export async function getBasename ( name: string, owner: `0x${string}`, duration
         args: [{
             name: (name), 
             owner: (owner), 
-            duration: (duration), 
-            resolver: (resolver), 
+            duration: BigInt(31557600), 
+            resolver: (basenameResolver), 
             data: ([addressData, nameData]), 
             reverseRecord: true
         }]
     })
+    return getBasenameData
 }

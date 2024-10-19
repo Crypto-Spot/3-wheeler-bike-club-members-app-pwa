@@ -42,7 +42,24 @@ export function PrivyContext ({ children }: Props) {
                 }, 
             }}
         >
-            <SmartWalletsProvider>{children}</SmartWalletsProvider>
+            <SmartWalletsProvider
+                config={{
+                    paymasterContext: {
+                      mode: "SPONSORED",
+                      calculateGasLimits: true,
+                      expiryDuration: 300,
+                      sponsorshipInfo: {
+                        webhookData: {},
+                        smartAccountInfo: {
+                          name: "BICONOMY",
+                          version: "2.0.0",
+                        },
+                      },
+                    }
+                }}
+            >
+                {children}
+            </SmartWalletsProvider>
         </PrivyProvider>
     )
 }
