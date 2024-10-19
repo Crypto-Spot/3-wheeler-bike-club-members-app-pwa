@@ -10,6 +10,8 @@ export function Authorized() {
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
+
+    const privyUserMetadata = user?.customMetadata
     
     return (
         <main className="flex flex-col w-full items-center gap-8 p-24 max-md:p-6">
@@ -31,14 +33,21 @@ export function Authorized() {
                 
                 <div className="flex w-full items-center justify-center">
                     {
-                        !user
+                        !privyUserMetadata
                         && (
                             <div>
-                                <p>loading...</p>
+                                <p>whoa! make profile woodie...</p>
                             </div>
                         )
                     }
-                    <Basenames address={smartWallet?.address as `0x${string}`}/>
+                    {
+                        privyUserMetadata
+                        && (
+                            <Basenames address={smartWallet?.address as `0x${string}`}/>
+                        )
+                    }
+                    
+                    
                 </div>
         </main>
     )
