@@ -19,6 +19,7 @@ import { Countries } from '@/utils/constants/countries'
 import { setCustomPrivyData } from "@/app/actions/setCustomPrivyData"
 import { feeDrip } from "@/utils/basenames/feeDrip"
 import { parseEther } from "viem"
+import { useRouter } from "next/navigation"
 
 
 
@@ -48,7 +49,7 @@ export function Profile () {
     const {client} = useSmartWallets();
     
     console.log(user?.linkedAccounts)
-
+    const router = useRouter()
     const countries = Object.keys(Countries);
      
     const [open, setOpen] = useState<boolean>(false)
@@ -106,7 +107,10 @@ export function Profile () {
             const name = firstname.toLocaleLowerCase() + lastname.toLocaleLowerCase() + "🛺💨"
             const basenameData = await getBasename(name, smartWallet?.address as `0x${string}`)
             console.log(basenameData)
-            await registerProfileBasename(basenameData)
+            const based = await registerProfileBasename(basenameData)
+            if (based) {
+                router.replace("/dashboard")
+            }
             setLoading(false)
         } catch (error) {
             console.log(error)
