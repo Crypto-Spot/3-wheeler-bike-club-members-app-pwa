@@ -3,7 +3,8 @@ import Image from "next/image";
 import { Logout } from "../logout";
 import { Profile } from "./profile";
 import { Basenames } from "./basename";
-import { useGetAttestations } from "@/hooks/transactions/useGetAttestations";
+import { Attestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
+import { Invoice } from "./invoice";
 
 export function Authorized() {
 
@@ -18,7 +19,7 @@ export function Authorized() {
     const privyUserMetadata = user?.customMetadata
     
     return (
-        <main className="flex flex-col w-full items-center gap-8 p-24 max-md:p-6">
+        <main className="flex flex-col w-full h-full items-center gap-8 p-24 max-md:p-6">
                 <div className="flex w-full justify-between">
                     <div>
                         <Image
@@ -47,15 +48,36 @@ export function Authorized() {
                     {
                         privyUserMetadata
                         && (
-                            <>
+                            <div className="flex flex-col gap-8">
                                 <div>
                                     <p>Welcome: </p>
                                     <Basenames address={smartWallet?.address as `0x${string}`}/>
                                 </div>
                                 <div>
+                                    {
+                                        !attestations 
+                                        ?(
+                                            <>
+                                                Your Weekly Membership Invoices will appear here. Pay them on time for good credit
+                                            </>
+                                        )
 
+                                        :(
+                                            <div className="flex flex-col gap-8">
+                                                <div className="flex flex-col gap-2">
+                                                    <p>Click any of the Invoices to pay you weekly membership dues on time & stay in good credit Standing</p>
+                                                    <p>Your Total score is: </p>
+                                                </div>
+                                                <div>
+                                                {attestations?.map((attestation: Attestation) => (
+                                                    <Invoice key={attestation._id} attestation={attestation}/>
+                                                ))}
+                                                </div>
+                                            </div>
+                                        )
+                                    }
                                 </div>
-                            </>
+                            </div>
                         )
                     }
                     
