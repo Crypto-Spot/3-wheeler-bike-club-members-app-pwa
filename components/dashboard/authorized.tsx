@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Logout } from "../logout";
 import { Profile } from "./profile";
 import { Basenames } from "./basename";
+import { useGetAttestations } from "@/hooks/transactions/useGetAttestations";
 
 export function Authorized() {
 
@@ -11,6 +12,9 @@ export function Authorized() {
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
 
+    const { attestations } = useGetAttestations( smartWallet?.address )
+    console.log(attestations)
+    
     const privyUserMetadata = user?.customMetadata
     
     return (
@@ -43,7 +47,15 @@ export function Authorized() {
                     {
                         privyUserMetadata
                         && (
-                            <Basenames address={smartWallet?.address as `0x${string}`}/>
+                            <>
+                                <div>
+                                    <p>Welcome: </p>
+                                    <Basenames address={smartWallet?.address as `0x${string}`}/>
+                                </div>
+                                <div>
+
+                                </div>
+                            </>
                         )
                     }
                     
