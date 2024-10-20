@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Logout } from "../logout";
 import { Profile } from "./profile";
 import { Basenames } from "./basename";
-import { Attestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
+import { OffchainAttestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
 import { Invoice } from "./invoice";
 
 export function Authorized() {
@@ -69,7 +69,7 @@ export function Authorized() {
                                                     <p>Your Total score is: </p>
                                                 </div>
                                                 <div>
-                                                {attestations?.map((attestation: Attestation) => (
+                                                {attestations?.map((attestation: OffchainAttestation) => (
                                                     <Invoice key={attestation._id} attestation={attestation}/>
                                                 ))}
                                                 </div>

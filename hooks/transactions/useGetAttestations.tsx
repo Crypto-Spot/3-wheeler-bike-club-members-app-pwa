@@ -2,7 +2,7 @@ import { getAttestationsAction } from "@/app/actions/attestation/getAttestations
 import { useState, useEffect } from "react"
 import { useBlockNumber } from "wagmi"
 
-export interface Attestation {
+export interface OffchainAttestation {
     _id: string
     address: string
     week: string
@@ -11,7 +11,7 @@ export interface Attestation {
 }
 export const useGetAttestations = (address: string| undefined) => {
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
-    const [attestations, setAttestations] = useState<Attestation[] | null>(null)
+    const [attestations, setAttestations] = useState<OffchainAttestation[] | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<any | null>(null)
 

@@ -8,6 +8,7 @@ declare global {
             PRIVATE_KEY: `0x${string}`
             WHEELER_API_KEY: string
             ATTEST_PRIVATE_KEY: `0x${string}`
+            BASE_NODE_API_KEY: string
         }
     }
 }
