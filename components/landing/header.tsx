@@ -10,29 +10,29 @@ export function Header() {
                 <Image
                     src="/icons/512x512.png"
                     alt=""
-                    width={40}
-                    height={40}
+                    width={66}
+                    height={66}
                 />
             </div>
 
 
             {/** right */}
-            <div className="flex gap-5">
-                <div className="flex gap-1">
+            <div className="flex gap-5 text-3xl">
+                <div className="flex gap-1 items-center">
                     <Home/>
-                    <p>Home</p>
+                    <p>home</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 items-center">
                     <BookOpenIcon/>
-                    <p>Features</p>
+                    <p>features</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 items-center">
                     <FileQuestion/>
-                    <p>About</p>
+                    <p>about</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 items-center">
                     <Contact/>
-                    <p>Contact us</p>
+                    <p>contact us</p>
                 </div>
                 <div></div>
             </div>

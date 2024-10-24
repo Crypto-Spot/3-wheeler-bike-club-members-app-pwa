@@ -43,9 +43,9 @@ export function Login() {
 
     
     return (
-        <Button disabled={!ready} onClick={Login} className="w-60 cursor-pointer z-20">
+        <Button disabled={!ready} onClick={Login} className="w-40 cursor-pointer z-20">
             <div className="flex w-full items-center justify-between">
-              <p>Enter 3 Wheeler Bike Club</p>
+              <p>GET STARTED</p>
               <LogIn/>
             </div>
         </Button>
