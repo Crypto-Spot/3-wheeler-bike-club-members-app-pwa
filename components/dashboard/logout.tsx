@@ -12,8 +12,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger 
-} from "./ui/alert-dialog"
-import { Button } from "./ui/button"
+} from "../ui/alert-dialog"
+import { Button } from "../ui/button"
 import { LogOut } from "lucide-react"
 
 

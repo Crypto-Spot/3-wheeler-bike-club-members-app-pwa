@@ -1,6 +1,6 @@
 import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
-import { Logout } from "../logout";
+import { Logout } from "./logout";
 import { Profile } from "./profile";
 import { Basenames } from "./basename";
 import { OffchainAttestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
