@@ -9,10 +9,10 @@ export function Hero() {
             {/** left */}
             <div className="flex flex-col flex w-1/2 items-end justify-center">
                 <div className="flex flex-col gap-20">
-                    <div className="flex flex-col font-semibold gap-5 w-[50rem] text-7xl max-3xl:text-[4.2rem] max-3xl:w-[39.5rem]">
+                    <div className="flex flex-col font-semibold gap-5 w-[50rem] text-7xl max-3xl:text-[4.2rem] max-3xl:w-[39.5rem] max-2xl:text-5xl max-2xl:w-[32rem]">
                         <p>AFFORDABLE 3WHEELER MADE <span className="text-yellow-400">EASY</span></p>
                     </div>
-                    <div className="flex text-2xl w-[33rem] max-3xl:text-xl max-3xl:w-[27rem]">
+                    <div className="flex text-2xl w-[33rem] max-3xl:text-xl max-3xl:w-[27rem] max-2xl:text-lg max-2xl:w-[25rem]">
                         <p>
                             Empower your Life, Own a 3wheeler and Create a sustainable future Onchain.
                         </p>

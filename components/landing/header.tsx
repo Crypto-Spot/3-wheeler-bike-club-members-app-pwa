@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function Header() {
     return (
-        <div className="flex w-full px-40 py-12 justify-between bg-[#191C1F] max-md:px-4">
+        <div className="flex w-full px-40 py-12 justify-between bg-[#191C1F]">
             {/** left */}
             <div className="">
                 <Image
@@ -17,7 +17,7 @@ export function Header() {
 
 
             {/** right */}
-            <div className="flex gap-5 text-xl">
+            <div className="flex gap-5 text-xl max-2xl:text-lg">
                 <div className="flex gap-1 items-center">
                     <Home/>
                     <p>home</p>
