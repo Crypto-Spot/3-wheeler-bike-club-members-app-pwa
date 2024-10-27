@@ -5,7 +5,7 @@ import { Login } from "./login";
 
 export function Hero() {
     return (
-        <div className="flex w-full h-900">
+        <div className="flex w-full px-60">
             {/** left */}
             <div className="flex flex-col flex w-1/2 gap-20 justify-center">
                 <div className="flex flex-col gap-5 text-8xl font-semibold">
@@ -13,12 +13,12 @@ export function Hero() {
                     <p>3WHEELER MADE </p>
                     <p className="text-yellow-400">EASY</p>
                 </div>
-                <div className="flex">
+                <div className="flex text-xl">
                     <p>
                         Empower your Life, Own a 3wheeler and Create a sustainable future Onchain.
                     </p>
                 </div>
-                <div>
+                <div className="flex gap-5">
                     <Button>ADD TO HOME SCREEN</Button>
                     <Login/>
                 </div>

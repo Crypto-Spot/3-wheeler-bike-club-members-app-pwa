@@ -10,13 +10,13 @@ import { Hero } from "./hero";
 
 export function Component() {
   return (
-    <main className="flex flex-col w-full h-full items-center gap-8 p-24 max-md:p-6">
+    <div className="flex flex-col w-full min-h-screen">
       <Header/>
       <Hero/>
       <Features/>
       <About/>
       <Contact/>
       <Footer/>
-    </main>
+    </div>
   );
 }
