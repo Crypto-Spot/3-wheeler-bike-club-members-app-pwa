@@ -11,7 +11,7 @@ export function Header() {
                     src="/icons/512x512.png"
                     alt=""
                     width={60}
-                    height={66}
+                    height={60}
                 />
             </div>
 
