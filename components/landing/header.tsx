@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function Header() {
     return (
-        <div className="flex w-full px-40 py-12 justify-between max-md:px-4">
+        <div className="flex w-full px-40 py-12 justify-between bg-[#191C1F] max-md:px-4">
             {/** left */}
             <div className="">
                 <Image

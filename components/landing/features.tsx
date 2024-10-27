@@ -32,14 +32,14 @@ export function Features() {
 
 
             {/** middle */}
-            <div className="flex w-full px-60">
+            <div className="flex w-full px-60 py-12 bg-[#1F2327]">
                 {/** left */}
                 <div className="flex w-1/2 justify-center">
                     <Image
                         src="/images/kekeFeatures.svg"
                         alt=""
-                        width={900}
-                        height={900}
+                        width={650}
+                        height={650}
                     />
                 </div>
 
@@ -61,7 +61,7 @@ export function Features() {
 
 
             {/** down */}
-            <div className="flex w-full px-60">
+            <div className="flex w-full px-60 bg-[#191C1F]">
                 {/** left */}
                 <div className="flex flex-col w-1/2 items-center justify-center">
                     <div className="flex flex-col gap-5">
@@ -80,8 +80,8 @@ export function Features() {
                     <Image
                         src="/images/kekeFeaturesLorry.svg"
                         alt=""
-                        width={900}
-                        height={900}
+                        width={650}
+                        height={650}
                     />
                 </div>
                 

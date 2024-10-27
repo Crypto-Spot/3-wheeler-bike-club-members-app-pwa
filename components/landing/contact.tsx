@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 export function Contact() {
     return (
-        <div className="flex flex-col py-12 gap-14 items-center">
+        <div className="flex flex-col py-24 gap-14 items-center bg-[#191C1F]">
             {/** top */}
             <div className="text-6xl font-semibold">
                 <p>Ready to <span className="text-yellow-400">Ride</span>?</p>
