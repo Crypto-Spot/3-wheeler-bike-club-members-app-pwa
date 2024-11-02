@@ -17,7 +17,7 @@ export function Header() {
 
 
             {/** right */}
-            <div className="flex gap-5 text-xl max-2xl:text-lg">
+            <div className="flex gap-5 text-xl max-5xl:text-lg">
                 <div className="flex gap-1 items-center">
                     <Home/>
                     <p>home</p>
