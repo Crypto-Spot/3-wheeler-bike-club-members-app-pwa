@@ -9,7 +9,7 @@ const config: Config = {
   ],
   theme: {
 	screens: {
-		'2xl': '1361px',
+		'2xl': '1367px',
 		'3xl': '1441px',
 		'4xl': '1537px',
 		'5xl': '1601px',
