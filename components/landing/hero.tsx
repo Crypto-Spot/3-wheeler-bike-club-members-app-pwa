@@ -9,7 +9,7 @@ export function Hero() {
             {/** left */}
             <div className="flex flex-col flex w-1/2 items-end justify-center">
                 <div className="flex flex-col gap-20">
-                    <div className="flex flex-col font-semibold gap-5 w-[50rem] text-7xl max-6xl:text-[4.2rem] max-6xl:w-[39.5rem] max-5xl:text-5xl max-5xl:w-[32rem]">
+                    <div className="flex flex-col font-semibold gap-5 w-[50rem] text-7xl max-6xl:text-[4.2rem] max-6xl:w-[39.5rem] max-5xl:text-5xl max-5xl:w-[32rem] max-4xl:text-5xl max-4xl:w-[28rem]">
                         <p>AFFORDABLE 3WHEELER MADE <span className="text-yellow-400">EASY</span></p>
                     </div>
                     <div className="flex text-2xl w-[33rem] max-6xl:text-xl max-6xl:w-[27rem] max-5xl:text-lg max-5xl:w-[25rem]">
