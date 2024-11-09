@@ -5,10 +5,10 @@ import { Login } from "./login";
 
 export function Hero() {
     return (
-        <div className="flex w-full px-60 bg-[#191C1F]">
+        <div className="flex w-full px-60 bg-[#191C1F] max-lg:flex-col max-lg:px-28 max-lg:gap-4">
             {/** left */}
-            <div className="flex flex-col flex w-1/2 items-end justify-center">
-                <div className="flex flex-col gap-20 max-3xl:gap-14 max-2xl:gap-12 max-xl:gap-6">
+            <div className="flex flex-col flex w-1/2 items-end justify-center max-lg:w-full max-lg:text-center max-lg:items-center">
+                <div className="flex flex-col gap-20 max-3xl:gap-14 max-2xl:gap-12 max-xl:gap-6 max-lg:items-center">
                     <div className="flex flex-col font-semibold gap-5 w-[50rem] text-7xl max-6xl:text-[4.2rem] max-6xl:w-[39.5rem] max-5xl:text-5xl max-5xl:w-[32rem] max-4xl:text-5xl max-4xl:w-[28rem] max-3xl:text-[2.8rem] max-3xl:w-[26rem] max-2xl:text-4xl max-2xl:w-[20rem] max-xl:text-4xl max-xl:w-[20rem]">
                         <p>AFFORDABLE 3WHEELER MADE <span className="text-yellow-400">EASY</span></p>
                     </div>
@@ -17,7 +17,7 @@ export function Hero() {
                             Empower your Life, Own a 3wheeler and Create a sustainable future Onchain.
                         </p>
                     </div>
-                    <div className="flex gap-5">
+                    <div className="flex gap-5 max-lg:justify-center">
                         <Button >ADD TO HOME SCREEN</Button>
                         <Login/>
                     </div>
@@ -26,7 +26,7 @@ export function Hero() {
 
 
             {/** right */}
-            <div className="flex w-1/2 justify-center">
+            <div className="flex w-1/2 max-lg:w-full">
                 <Image
                     src="/images/kekeHero.svg"
                     alt=""

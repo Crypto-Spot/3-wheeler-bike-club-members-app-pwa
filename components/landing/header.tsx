@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function Header() {
     return (
-        <div className="flex w-full px-40 py-12 justify-between bg-[#191C1F]">
+        <div className="flex w-full px-40 py-12 justify-between bg-[#191C1F] max-lg:px-8">
             {/** left */}
             <div className="">
                 <Image
@@ -20,19 +20,19 @@ export function Header() {
             <div className="flex gap-5 text-xl max-5xl:text-lg">
                 <div className="flex gap-1 items-center">
                     <Home/>
-                    <p>home</p>
+                    <p className="max-lg:hidden">home</p>
                 </div>
                 <div className="flex gap-1 items-center">
                     <BookOpenIcon/>
-                    <p>features</p>
+                    <p className="max-lg:hidden">features</p>
                 </div>
                 <div className="flex gap-1 items-center">
                     <FileQuestion/>
-                    <p>about</p>
+                    <p className="max-lg:hidden">about</p>
                 </div>
                 <div className="flex gap-1 items-center">
                     <Contact/>
-                    <p>contact us</p>
+                    <p className="max-lg:hidden">contact us</p>
                 </div>
                 <div></div>
             </div>
