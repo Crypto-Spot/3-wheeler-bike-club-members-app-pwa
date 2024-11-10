@@ -18,7 +18,7 @@ export function PrivyContext ({ children }: Props) {
             appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
             config={{
                 /* Replace this with your desired login methods */
-                loginMethods: ["sms","wallet"],
+                loginMethods: ["sms"],
                 /* Replace this with your desired appearance configuration */
                 appearance: {
                     theme: "dark",
@@ -33,13 +33,7 @@ export function PrivyContext ({ children }: Props) {
                 embeddedWallets: {
                     createOnLogin: "users-without-wallets",
                     noPromptOnSignature: true
-                },     
-                externalWallets: { 
-                    coinbaseWallet: { 
-                      // Valid connection options include "eoaOnly" (default), "smartWalletOnly", or "all"
-                      connectionOptions: "smartWalletOnly", 
-                    },
-                }, 
+                },
             }}
         >
             <SmartWalletsProvider

@@ -9,7 +9,7 @@ export function Contact() {
                 <p>Ready to <span className="text-yellow-400">Ride</span>?</p>
             </div>
             {/** middle */}
-            <div className="w-[30rem] max-5xl:w-[26rem] max-lg:w-[22rem] text-center">
+            <div className="w-[30rem] max-5xl:w-[26rem] max-lg:w-[20rem] text-center">
                 <p className="text-2xl max-5xl:text-xl max-lg:text-base">Start Your Journey with Affordable 3wheeler and empower your future</p>
             </div>
             {/** down */}
