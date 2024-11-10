@@ -10,16 +10,11 @@ import { usePrivy } from "@privy-io/react-auth"
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer"
 import { motion } from "framer-motion";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { useSmartWallets } from "@privy-io/react-auth/smart-wallets"
-import { base } from "viem/chains"
-import { basenameRegistrar } from "@/utils/constants/addresses"
-import { getBasename } from "@/utils/basenames/getBasename"
+//import { useSmartWallets } from "@privy-io/react-auth/smart-wallets"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Countries } from '@/utils/constants/countries'
 import { setCustomPrivyData } from "@/app/actions/setCustomPrivyData"
-import { feeDrip } from "@/utils/basenames/feeDrip"
-import { parseEther } from "viem"
-import { useRouter } from "next/navigation"
+//import { useRouter } from "next/navigation"
 
 
 
@@ -46,10 +41,10 @@ export function Profile () {
     console.log(smartWallet?.type);
     // Logs the smart wallet type (e.g. 'safe', 'kernel', 'light_account', 'biconomy')
 
-    const {client} = useSmartWallets();
+    //const {client} = useSmartWallets();
     
     console.log(user?.linkedAccounts)
-    const router = useRouter()
+    //const router = useRouter()
     const countries = Object.keys(Countries);
      
     const [open, setOpen] = useState<boolean>(false)
@@ -72,19 +67,6 @@ export function Profile () {
    
     
     
-
-    
-    async function registerProfileBasename( basenameData: `0x${string}` ) {
-        
-        const txHash = await client?.sendTransaction({
-            account: client?.account,
-            chain: base,
-            to: basenameRegistrar,
-            data: basenameData,
-            value: parseEther("0.0001")
-        });
-        return txHash
-    }
     
     async function onSubmit() {
         try {
@@ -96,21 +78,18 @@ export function Profile () {
             console.log(country)
             setLoading(true)
             if (!firstname || !lastname || !country || !did) return
-            const drip = feeDrip(smartWallet?.address as `0x${string}`)
+    
             const privyData = {
                 firstname,
                 lastname,
                 country,
             }
-            if (!drip) return
             await setCustomPrivyData(did, privyData)
-            const name = firstname.toLocaleLowerCase() + lastname.toLocaleLowerCase() + "🛺💨"
-            const basenameData = await getBasename(name, smartWallet?.address as `0x${string}`)
-            console.log(basenameData)
-            const based = await registerProfileBasename(basenameData)
-            if (based) {
+            /*
+            if (true) {
                 router.replace("/dashboard")
             }
+            */
             setLoading(false)
         } catch (error) {
             console.log(error)

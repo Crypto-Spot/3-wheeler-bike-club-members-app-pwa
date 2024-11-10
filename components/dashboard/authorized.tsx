@@ -2,7 +2,6 @@ import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { Logout } from "./logout";
 import { Profile } from "./profile";
-import { Basenames } from "./basename";
 import { OffchainAttestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
 import { Invoice } from "./invoice";
 
@@ -50,8 +49,7 @@ export function Authorized() {
                         && (
                             <div className="flex flex-col gap-8">
                                 <div>
-                                    <p>Welcome: </p>
-                                    <Basenames address={smartWallet?.address as `0x${string}`}/>
+                                    <p>Welcome:{smartWallet?.address as `0x${string}`} </p>
                                 </div>
                                 <div>
                                     {

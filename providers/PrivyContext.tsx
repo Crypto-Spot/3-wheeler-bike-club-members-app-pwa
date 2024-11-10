@@ -24,14 +24,11 @@ export function PrivyContext ({ children }: Props) {
                     theme: "dark",
                     accentColor: "#E2C837",
                     logo: "https://i.ibb.co/1R7dngG/3-Wheeler-Logo-Horizontal-4x.png",
-                    showWalletLoginFirst: true,
-                        walletList: ["coinbase_wallet"], 
-
                 },
                 defaultChain: base,
                 supportedChains: [base],
                 embeddedWallets: {
-                    createOnLogin: "users-without-wallets",
+                    createOnLogin: "all-users",
                     noPromptOnSignature: true
                 },
             }}
