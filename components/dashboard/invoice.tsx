@@ -4,9 +4,6 @@ import { unpaidUID } from "@/utils/constants/addresses";
 import { useState } from "react";
 import { Ramp } from "./ramp";
 import { Button } from "../ui/button";
-//mport { useWatchContractEvent } from "wagmi";
-//import { base } from "viem/chains";
-//import { erc20Abi } from "viem";
 import { sendInvoiceAttestationOnchain } from "@/utils/attest/sendAttestation";
 import { updateAttestationAction } from "@/app/actions/attestation/updateAttestationAction";
 

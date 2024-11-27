@@ -7,7 +7,7 @@ import { easContractAddress, schemaUID } from "../constants/addresses";
 
 
 export async function sendInvoiceAttestationOnchain ( receiver: `0x${string}`, amount: bigint, week: string, score: number, timeStamp: number) {
-    const provider = new ethers.JsonRpcProvider(`https://api.developer.coinbase.com/rpc/v1/base/${process.env.BASE_NODE_API_KEY}`);
+    const provider = new ethers.JsonRpcProvider(`https://`);
     const signer = new ethers.Wallet(process.env.ATTEST_PRIVATE_KEY, provider);
    
     const eas = new EAS(easContractAddress);

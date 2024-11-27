@@ -1,15 +1,15 @@
 import { createConfig, http, cookieStorage, createStorage } from "wagmi"
-import { base } from "wagmi/chains"
+import { celo } from "wagmi/chains"
 
 //export const chains=
 export const config = createConfig({
-  chains: [ base ],
+  chains: [ celo ],
   ssr: true,
   storage: createStorage({  
     storage: cookieStorage, 
   }),
   transports: {
-    [base.id]: http(),
+    [celo.id]: http(),
   },
 })
 
