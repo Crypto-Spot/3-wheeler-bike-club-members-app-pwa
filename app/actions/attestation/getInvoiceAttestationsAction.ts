@@ -1,17 +1,17 @@
 "use server"
 
-export async function getAttestationsAction (
+export async function getInvoiceAttestationsAction (
     address: string
 ) {
     try {
-        const res = await fetch(`${process.env.BASE_URL}/api/getAttestations`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/getInvoiceAttestatoins`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
                 "x-api-key": `${process.env.WHEELER_API_KEY}`
             },
             body: JSON.stringify({
-                address
+                address: address
             })
         }) 
         const data =  await res.json()

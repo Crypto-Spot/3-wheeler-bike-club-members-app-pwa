@@ -2,8 +2,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { Logout } from "./logout";
 import { Profile } from "./profile";
-import { OffchainAttestation, useGetAttestations } from "@/hooks/transactions/useGetAttestations";
 import { Invoice } from "./invoice";
+import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
+import { useGetReceiptAttestations } from "@/hooks/attestations/useGetReceipAttestations";
 
 export function Authorized() {
 
@@ -11,9 +12,11 @@ export function Authorized() {
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
-
-    const { attestations } = useGetAttestations( smartWallet?.address )
-    console.log(attestations)
+    //const invoiceAttestations: OffchainInvoiceAttestation[]= []
+    const { invoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
+    console.log(invoiceAttestations)
+    //const { receiptAttestations } = useGetReceiptAttestations( smartWallet?.address )
+    //console.log(receiptAttestations)
     
     const privyUserMetadata = user?.customMetadata
     
@@ -53,7 +56,7 @@ export function Authorized() {
                                 </div>
                                 <div>
                                     {
-                                        !attestations 
+                                        !invoiceAttestations 
                                         ?(
                                             <>
                                                 Your Weekly Membership Invoices will appear here. Pay them on time for good credit
@@ -67,8 +70,8 @@ export function Authorized() {
                                                     <p>Your Total score is: </p>
                                                 </div>
                                                 <div>
-                                                {attestations?.map((attestation: OffchainAttestation) => (
-                                                    <Invoice key={attestation._id} attestation={attestation}/>
+                                                {invoiceAttestations?.map((invoiceAttestation: OffchainInvoiceAttestation) => (
+                                                    <Invoice key={invoiceAttestation._id} invoiceAttestation={invoiceAttestation}/>
                                                 ))}
                                                 </div>
                                             </div>

@@ -13,7 +13,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 //import { useSmartWallets } from "@privy-io/react-auth/smart-wallets"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Countries } from '@/utils/constants/countries'
-import { setCustomPrivyData } from "@/app/actions/setCustomPrivyData"
+import { setCustomPrivyData } from "@/app/actions/privy/setCustomPrivyData"
 //import { useRouter } from "next/navigation"
 
 

@@ -1,4 +1,5 @@
 "use server"
+
 export interface privyUserMetadataProps {
     firstname: string
     lastname: string
