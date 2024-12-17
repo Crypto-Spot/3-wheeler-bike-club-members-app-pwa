@@ -7,14 +7,6 @@ const Ghana: Country = {
     currency: 'Ghanaian Cedis',
     code: 'GHS',
 }
-const Ethiopia: Country = {
-    currency: 'Ethiopian Birrs',
-    code: 'ETB',
-}
-const Tanzania: Country = {
-    currency: 'Tanzanian Shillings',
-    code: 'TZS',
-}
 const Egypt: Country = {
     currency: 'Egyptian Pounds',
     code: 'EGP',
@@ -33,4 +25,5 @@ export const Countries = {
     Ghana: Ghana,
     Kenya: Kenya,
     Nigeria: Nigeria,
+    Egypt: Egypt
 } 

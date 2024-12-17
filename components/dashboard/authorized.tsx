@@ -4,7 +4,8 @@ import { Logout } from "./logout";
 import { Profile } from "./profile";
 import { Invoice } from "./invoice";
 import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
-import { useGetReceiptAttestations } from "@/hooks/attestations/useGetReceipAttestations";
+
+
 
 export function Authorized() {
 
@@ -12,11 +13,9 @@ export function Authorized() {
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
-    //const invoiceAttestations: OffchainInvoiceAttestation[]= []
     const { invoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
     console.log(invoiceAttestations)
-    //const { receiptAttestations } = useGetReceiptAttestations( smartWallet?.address )
-    //console.log(receiptAttestations)
+
     
     const privyUserMetadata = user?.customMetadata
     
@@ -48,7 +47,7 @@ export function Authorized() {
                         )
                     }
                     {
-                        privyUserMetadata
+                        privyUserMetadata && smartWallet
                         && (
                             <div className="flex flex-col gap-8">
                                 <div>
@@ -71,7 +70,7 @@ export function Authorized() {
                                                 </div>
                                                 <div>
                                                 {invoiceAttestations?.map((invoiceAttestation: OffchainInvoiceAttestation) => (
-                                                    <Invoice key={invoiceAttestation._id} invoiceAttestation={invoiceAttestation}/>
+                                                    <Invoice key={invoiceAttestation._id} address={smartWallet?.address} invoiceAttestation={invoiceAttestation}/>
                                                 ))}
                                                 </div>
                                             </div>

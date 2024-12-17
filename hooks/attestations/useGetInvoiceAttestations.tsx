@@ -1,14 +1,12 @@
 
 import { getInvoiceAttestationsAction } from "@/app/actions/attestation/getInvoiceAttestationsAction"
 import { useState, useEffect } from "react"
-import { useBlockNumber } from "wagmi"
 
 export interface OffchainInvoiceAttestation {
     _id: string
     invoiceSchemaID: string
 }
 export const useGetInvoiceAttestations = (address: string| undefined) => {
-    const { data: blockNumber } = useBlockNumber({ watch: true }) 
     const [invoiceAttestations, setInvoiceAttestations] = useState<OffchainInvoiceAttestation[] | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<any | null>(null)
@@ -27,7 +25,7 @@ export const useGetInvoiceAttestations = (address: string| undefined) => {
             }
         }
         getInvoiceAttestations()
-    },[ address, blockNumber ])
+    },[ address ])
 
     return {invoiceAttestations, loading, error}
 }

@@ -4,11 +4,13 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             NEXT_PUBLIC_PRIVY_APP_ID: string
+            NEXT_PUBLIC_PAYSTACK_KEY: string
             PRIVY_APP_SECRET: string
             PRIVATE_KEY: `0x${string}`
             WHEELER_API_KEY: string
             ATTEST_PRIVATE_KEY: `0x${string}`
             BASE_NODE_API_KEY: string
+            BASE_URL: string
         }
     }
 }
