@@ -6,17 +6,18 @@ export interface OffchainReceiptAttestation {
     _id: string
     receiptSchemaID: string
 }
-export const useGetReceiptAttestation = (address: string| undefined) => {
+export const useGetReceiptAttestation = (invoiceSchemaID: string| undefined) => {
     const [receiptAttestation, setReceiptAttestation] = useState<OffchainReceiptAttestation | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<any | null>(null)
 
     useEffect (() =>{
-        const getReceiptAttestation = async ()=>{
-            if (address) {
+        async function getReceiptAttestation() {
+            if (invoiceSchemaID) {
+                setLoading(true);
                 try {
                     
-                    const data = await getReceiptAttestationsAction(address)
+                    const data = await getReceiptAttestationsAction(invoiceSchemaID)
                     setReceiptAttestation(data)
                 } catch(err){
                     setError(err)
@@ -25,7 +26,21 @@ export const useGetReceiptAttestation = (address: string| undefined) => {
             }
         }
         getReceiptAttestation()
-    },[ address ])
+    },[ invoiceSchemaID ])
 
-    return {receiptAttestation, loading, error}
+    async function getBackReceiptAttestation() {
+        if (invoiceSchemaID) {
+            setLoading(true);
+            try {
+                
+                const data = await getReceiptAttestationsAction(invoiceSchemaID)
+                setReceiptAttestation(data)
+            } catch(err){
+                setError(err)
+            }
+            setLoading(false)
+        }
+    }
+
+    return {receiptAttestation, loading, error, getBackReceiptAttestation}
 }

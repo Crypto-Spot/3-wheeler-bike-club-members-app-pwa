@@ -7,6 +7,7 @@ import { useGetReceiptAttestation } from "@/hooks/attestations/useGetReceipAttes
 import { postReceiptAttestationAction } from "@/app/actions/attestation/postReceiptAttestationAction";
 import { deconstructAttestationData } from "@/utils/attest/deconstructAttestationData";
 import { attestReceipt } from "@/utils/attest/attestReceipt";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface InvoiceProps {
     address: string
@@ -14,12 +15,15 @@ interface InvoiceProps {
 }
 
 export function Invoice ({ address, invoiceAttestation }: InvoiceProps) {
-    const { receiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
+    
+    const {user} = usePrivy();
+
+    const { receiptAttestation, getBackReceiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
     console.log(receiptAttestation)
 
     const config : PaystackProps = {
         reference: invoiceAttestation.invoiceSchemaID,
-        email: "tickether@gmail.com",
+        email: user!.email!.address!,
         amount: Number(2) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
         currency: "GHS",
@@ -39,6 +43,7 @@ export function Invoice ({ address, invoiceAttestation }: InvoiceProps) {
         if (receipt) {
             await postReceiptAttestationAction(address, invoiceAttestation.invoiceSchemaID, receipt?.attestationId)
         }
+        getBackReceiptAttestation()
     };
       
     const onClose = () => {

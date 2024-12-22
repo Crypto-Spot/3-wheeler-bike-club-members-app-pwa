@@ -1,10 +1,8 @@
 import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { Logout } from "./logout";
-import { Profile } from "./profile";
 import { Invoice } from "./invoice";
 import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
-
 
 
 export function Authorized() {
@@ -31,7 +29,6 @@ export function Authorized() {
                         />
                     </div>
                     <div className="flex gap-3">
-                        <Profile/>
                         <Logout/>
                     </div>
                 </div>
@@ -51,6 +48,7 @@ export function Authorized() {
                         && (
                             <div className="flex flex-col gap-8">
                                 <div>
+                                    <p>{privyUserMetadata.firstname} {privyUserMetadata.lastname}</p>
                                     <p>Welcome:{smartWallet?.address as `0x${string}`} </p>
                                 </div>
                                 <div>

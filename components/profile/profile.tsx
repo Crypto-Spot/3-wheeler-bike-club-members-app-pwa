@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { FaceIcon } from "@radix-ui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form"
 import { usePrivy } from "@privy-io/react-auth"
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer"
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "../ui/drawer"
 import { motion } from "framer-motion";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 //import { useSmartWallets } from "@privy-io/react-auth/smart-wallets"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Countries } from '@/utils/constants/countries'
-import { setCustomPrivyData } from "@/app/actions/privy/setCustomPrivyData"
-//import { useRouter } from "next/navigation"
-
+import { Countries } from "@/utils/constants/countries"
+import { setCustomPrivyMetadata } from "@/app/actions/privy/setCustomPrivyMetadata"
+import { Logout } from "./logout"
 
 
 
@@ -47,7 +45,7 @@ export function Profile () {
     //const router = useRouter()
     const countries = Object.keys(Countries);
      
-    const [open, setOpen] = useState<boolean>(false)
+
     const [loading, setLoading] = useState<boolean | null>(null)
 
 
@@ -84,45 +82,27 @@ export function Profile () {
                 lastname,
                 country,
             }
-            await setCustomPrivyData(did, privyData)
-            /*
-            if (true) {
-                router.replace("/dashboard")
+
+            const member = await setCustomPrivyMetadata(did, privyData)
+            console.log(member)
+            
+            if (member?.customMetadata) {
+                window.location.href = "/dashboard"
             }
-            */
+            
             setLoading(false)
         } catch (error) {
             console.log(error)
             setLoading(false)
         }
     }
-    useEffect(()=>{
-        if (  !loading) {
-            setOpen(false)
-        }
-    }, [ loading])
+    
 
     return (
         <>
             <Drawer
-                open={open}
-                onOpenChange={setOpen}
-                onClose={()=>{
-                    //
-                }}
+                open={true}
             >
-                <DrawerTrigger asChild>
-                    <Button 
-                        className="gap-2" 
-                        variant="outline"
-                        onClick={()=>{
-                            setOpen(true)
-                        }}
-                    >
-                        <FaceIcon/>
-                        <span className="max-md:hidden">Edit Profile</span>
-                    </Button>
-                </DrawerTrigger>
                 <DrawerContent>
                     <div className="mx-auto w-full max-w-sm">
                         <DrawerHeader>
@@ -207,7 +187,8 @@ export function Profile () {
                                     />
                                     
                             
-                                    <div className="flex justify-end">
+                                    <div className="flex justify-between">
+                                        <Logout/>
                                         <Button
                                             className="w-36"
                                             disabled={loading! || privyUserMetadata?.lastname as string !== undefined}

@@ -6,12 +6,13 @@ import { useLogin } from "@privy-io/react-auth";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
+//import { getPrivyUser } from "@/app/actions/privy/getPrivyUser";
 
 
 export function Login() {
     const router = useRouter()
     
-    const { ready, authenticated } = usePrivy()
+    const { ready, authenticated, user } = usePrivy()
 
     const { login } = useLogin({
         onComplete: ( wasAlreadyAuthenticated ) => {
@@ -25,9 +26,15 @@ export function Login() {
     useEffect(() => {
         if (logging && wasAuthenticated) {
             setLogging(false)
-            router.replace("/dashboard");
+            //check if user has a profile 
+            if (user?.customMetadata) {
+                router.replace("/dashboard");
+            } else {
+                router.replace("/profile");
+            }
+            
         }
-    }, [wasAuthenticated, logging, router]);
+    }, [wasAuthenticated, logging, router, user?.customMetadata]);
 
     const Login = async () => {
         try {

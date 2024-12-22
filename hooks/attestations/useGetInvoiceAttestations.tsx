@@ -12,8 +12,9 @@ export const useGetInvoiceAttestations = (address: string| undefined) => {
     const [error, setError] = useState<any | null>(null)
 
     useEffect (() =>{
-        const getInvoiceAttestations = async ()=>{
+        async function getInvoiceAttestations() {
             if (address) {
+                setLoading(true);
                 try {
                     
                     const data = await getInvoiceAttestationsAction(address)
@@ -27,5 +28,19 @@ export const useGetInvoiceAttestations = (address: string| undefined) => {
         getInvoiceAttestations()
     },[ address ])
 
-    return {invoiceAttestations, loading, error}
+    async function getBackInvoiceAttestations() {
+        if (address) {
+            setLoading(true);
+            try {
+                
+                const data = await getInvoiceAttestationsAction(address)
+                setInvoiceAttestations(data)
+            } catch(err){
+                setError(err)
+            }
+            setLoading(false)
+        }
+    }
+
+    return {invoiceAttestations, loading, error, getBackInvoiceAttestations}
 }

@@ -4,7 +4,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { Authorized } from "./authorized";
 import { Unauthorized } from "./unauthorized";
 
-export function Component() {
+
+
+export function Wrapper() {
   const { ready, authenticated } = usePrivy()
   return (
     <>
