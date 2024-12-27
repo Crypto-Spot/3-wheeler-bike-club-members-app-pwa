@@ -8,25 +8,29 @@ import { postReceiptAttestationAction } from "@/app/actions/attestation/postRece
 import { deconstructAttestationData } from "@/utils/attest/deconstructAttestationData";
 import { attestReceipt } from "@/utils/attest/attestReceipt";
 import { usePrivy } from "@privy-io/react-auth";
+import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 
 interface InvoiceProps {
     address: string
     invoiceAttestation: OffchainInvoiceAttestation
+    currencyRate: CurrencyRate
 }
 
-export function Invoice ({ address, invoiceAttestation }: InvoiceProps) {
+export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceProps) {
     
     const {user} = usePrivy();
 
     const { receiptAttestation, getBackReceiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
     console.log(receiptAttestation)
 
+  
+
     const config : PaystackProps = {
         reference: invoiceAttestation.invoiceSchemaID,
         email: user!.email!.address!,
-        amount: Number(2) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        amount: Number(currencyRate?.rate) * Number(2) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
-        currency: "GHS",
+        currency: currencyRate?.currency,
         channels: ['card', 'mobile_money'],
     }
     

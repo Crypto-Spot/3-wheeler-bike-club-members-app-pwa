@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Logout } from "./logout";
 import { Invoice } from "./invoice";
 import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
+import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
+import { Countries, Country } from "@/utils/constants/countries";
 
 
 export function Authorized() {
@@ -14,6 +16,12 @@ export function Authorized() {
     const { invoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
     console.log(invoiceAttestations)
 
+    
+    const country = Countries[user?.customMetadata?.country as keyof typeof Countries] as Country;
+    console.log(country)
+
+    const { currencyRate } = useGetCurrencyRate(country.code)
+    console.log(currencyRate)
     
     const privyUserMetadata = user?.customMetadata
     
@@ -68,7 +76,7 @@ export function Authorized() {
                                                 </div>
                                                 <div>
                                                 {invoiceAttestations?.map((invoiceAttestation: OffchainInvoiceAttestation) => (
-                                                    <Invoice key={invoiceAttestation._id} address={smartWallet?.address} invoiceAttestation={invoiceAttestation}/>
+                                                    <Invoice key={invoiceAttestation._id} address={smartWallet?.address} invoiceAttestation={invoiceAttestation} currencyRate={currencyRate!}/>
                                                 ))}
                                                 </div>
                                             </div>
