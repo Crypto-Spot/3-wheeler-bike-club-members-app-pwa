@@ -4,7 +4,7 @@ import { IndexService } from "@ethsign/sp-sdk";
 
 
 
-export async function getAttestations(attestationID: string){
+export async function getAttestation(attestationID: string){
     const indexService = new IndexService("mainnet");
     const res = await indexService.queryAttestation(attestationID);
     console.log(res)

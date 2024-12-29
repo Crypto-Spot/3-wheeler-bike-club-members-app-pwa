@@ -9,6 +9,8 @@ import { deconstructAttestationData } from "@/utils/attest/deconstructAttestatio
 import { attestReceipt } from "@/utils/attest/attestReceipt";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
+import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
+import { useDecodeInvoiceAttestationData } from "@/hooks/attestations/useDecodeInvoiceAttestationData";
 
 interface InvoiceProps {
     address: string
@@ -23,7 +25,12 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
     const { receiptAttestation, getBackReceiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
     console.log(receiptAttestation)
 
-  
+
+    const { attestation } = useGetAttestationData( invoiceAttestation.invoiceSchemaID )
+    console.log(attestation)
+
+    const { invoiceAttestationData } = useDecodeInvoiceAttestationData( attestation?.data )
+    console.log(invoiceAttestationData)
 
     const config : PaystackProps = {
         reference: invoiceAttestation.invoiceSchemaID,
@@ -66,18 +73,19 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
         <>
             <Card className="flex justify-between">
                 <div className="flex flex-col">
-                    <p>week: {invoiceAttestation._id}</p>
+                    <p>Amount: {Number(invoiceAttestationData?.Amount)}</p>
+                    <p>Week: {invoiceAttestationData?.Week}</p>
                     <div>
                         {
                             !receiptAttestation
                             ? (
                                 <>
-                                <p>status: Unpaid {invoiceAttestation.invoiceSchemaID }</p>
+                                <p>status: Unpaid { invoiceAttestation.invoiceSchemaID }</p>
                                 </>
                             )
                             : (
                                 <>
-                                    <p>status: Paid  {invoiceAttestation.invoiceSchemaID }</p>
+                                    <p>status: Paid  { invoiceAttestation.invoiceSchemaID }</p>
                         
                                 </>
                             
