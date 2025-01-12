@@ -10,6 +10,7 @@ import { Countries, Country } from "@/utils/constants/countries";
 export function Authorized() {
 
     const {user} = usePrivy();
+    console.log(user)
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);

@@ -21,6 +21,7 @@ interface InvoiceProps {
 export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceProps) {
     
     const {user} = usePrivy();
+    console.log(currencyRate?.currency)
 
     const { receiptAttestation, getBackReceiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
     console.log(receiptAttestation)

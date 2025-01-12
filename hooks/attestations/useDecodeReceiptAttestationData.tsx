@@ -4,7 +4,7 @@ import { receiptSchemaData } from "@/utils/constants/addresses"
 import { useState, useEffect } from "react"
 
 interface receiptSchemaData {
-    Amount: number,
+    Amount: BigInt,
     //Currency: string
     Week: string,
     Score: number
