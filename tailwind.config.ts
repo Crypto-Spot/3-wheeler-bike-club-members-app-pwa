@@ -8,17 +8,17 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-	screens: {
-		'sm': '640px',
-		'md': '768px',
-		'lg': '1025px',
-		'xl': '1281px',
-		'2xl': '1367px',
-		'3xl': '1441px',
-		'4xl': '1537px',
-		'5xl': '1601px',
-		'6xl': '1921px',
-	},
+  	screens: {
+  		sm: '640px',
+  		md: '768px',
+  		lg: '1025px',
+  		xl: '1281px',
+  		'2xl': '1367px',
+  		'3xl': '1441px',
+  		'4xl': '1537px',
+  		'5xl': '1601px',
+  		'6xl': '1921px'
+  	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -60,6 +60,16 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
   		borderRadius: {

@@ -14,15 +14,22 @@ export function Wrapper() {
         !ready 
         ?(
             <>
-                <main className="flex min-h-screen flex-col items-center justify-between p-24">
+                <main className="flex">
                     <p>loading....</p>
                 </main>
             </>
         )
         :(
-            authenticated
-            ? <Authorized/>
-            : <Unauthorized/>
+          <>
+                <main className="flex w-full h-full">
+                  {
+                    authenticated
+                    ? <Authorized/>
+                    : <Unauthorized/>
+                  }
+                </main>
+            </>
+            
         )
       }
     </>

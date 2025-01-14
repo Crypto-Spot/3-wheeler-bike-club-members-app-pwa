@@ -1,95 +1,124 @@
+import { Bell, Bike, CheckCheck, Coins, Copy, MessagesSquare, Wallet } from "lucide-react";
+import { SidebarTrigger } from "../ui/sidebar";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
-import Image from "next/image";
-import { Logout } from "./logout";
-import { Invoice } from "./invoice";
-import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
-import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
-import { Countries, Country } from "@/utils/constants/countries";
-
+import { shortenAddress } from "@/utils/shorten";
+import { useState } from "react";
 
 export function Authorized() {
 
-    const {user} = usePrivy();
-    console.log(user)
-    
+    const { user } = usePrivy()
+
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
-    const { invoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
-    console.log(invoiceAttestations)
 
-    
-    const country = Countries[user?.customMetadata?.country as keyof typeof Countries] as Country;
-    console.log(country)
-
-    const { currencyRate } = useGetCurrencyRate(country.code)
-    console.log(currencyRate)
-    
     const privyUserMetadata = user?.customMetadata
+
+    const router = useRouter()
+
+    
+    const [copied, setCopied] = useState<boolean>(false)
+
+    const handleCopy = async () => {
+        if (smartWallet?.address) {
+            await navigator.clipboard.writeText(smartWallet?.address);
+            setCopied(true);
+            setTimeout(() => {
+                setCopied(false);
+            }, 2000);
+        }
+
+    };
     
     return (
-        <main className="flex flex-col w-full h-full items-center gap-8 p-24 max-md:p-6">
-                <div className="flex w-full justify-between">
-                    <div>
-                        <Image
-                            src="/icons/512x512.png"
-                            alt=""
-                            width={40}
-                            height={40}
-                        />
-                    </div>
-                    <div className="flex gap-3">
-                        <Logout/>
-                    </div>
+        <main className="flex h-full w-full">
+            <div className="flex flex-col h-full p-4 md:p-8 lg:p-20 w-full gap-6">
+                <div className="flex shrink-0">
+                    <SidebarTrigger/>
                 </div>
-            
-                
-                <div className="flex w-full items-center justify-center">
-                    {
-                        !privyUserMetadata
-                        && (
-                            <div>
-                                <p>whoa! make profile woodie...</p>
-                            </div>
-                        )
-                    }
-                    {
-                        privyUserMetadata && smartWallet
-                        && (
-                            <div className="flex flex-col gap-8">
-                                <div>
-                                    <p>{privyUserMetadata.firstname} {privyUserMetadata.lastname}</p>
-                                    <p>Welcome:{smartWallet?.address as `0x${string}`} </p>
-                                </div>
-                                <div>
-                                    {
-                                        !invoiceAttestations 
-                                        ?(
-                                            <>
-                                                Your Weekly Membership Invoices will appear here. Pay them on time for good credit
-                                            </>
-                                        )
 
-                                        :(
-                                            <div className="flex flex-col gap-8">
-                                                <div className="flex flex-col gap-2">
-                                                    <p>Click any of the Invoices to pay you weekly membership dues on time & stay in good credit Standing</p>
-                                                    <p>Your Total score is: </p>
-                                                </div>
-                                                <div>
-                                                {invoiceAttestations?.map((invoiceAttestation: OffchainInvoiceAttestation) => (
-                                                    <Invoice key={invoiceAttestation._id} address={smartWallet?.address} invoiceAttestation={invoiceAttestation} currencyRate={currencyRate!}/>
-                                                ))}
-                                                </div>
-                                            </div>
-                                        )
-                                    }
+                <div className="flex justify-between w-full shrink-0">
+                    <div className="flex flex-col gap-2">
+                        <p><span className="text-sm italic">hello</span>, <span className="font-semibold text-2xl">{privyUserMetadata?.firstname}</span></p>
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs">{ shortenAddress(smartWallet?.address) }</p>
+                            {copied ? <CheckCheck size={12}/> : <Copy size={12} onClick={handleCopy}/>}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <MessagesSquare/>
+                        <Bell />
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-4 w-full flex-1 overflow-y-auto">
+                    <div className="">
+                        <Card className="flex flex-col gap-2 items-center p-4 md:p-6">
+                            <div className="flex flex-col items-center gap-5">
+                                <Coins size={66} />
+                                <div className="flex flex-col gap-2 items-center w-full max-w-96">
+                                    <p className="text-3xl font-bold">Membership</p>
+                                    <p>Contribute membership dues & build your reputation</p>
                                 </div>
                             </div>
-                        )
-                    }
-                    
-                    
+                            <div className="p-4 md:p-6 w-full max-w-[36rem]">
+                                <Button className="w-full"
+                                    onClick={()=>{
+                                        router.push("/membership")
+                                    }}
+                                >
+                                   Pay Dues
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
+
+                    <div className="">
+                        <Card className="flex flex-col gap-2 items-center p-4 md:p-6">
+                            <div className="flex flex-col items-center gap-5">
+                                <Wallet size={66} />
+                                <div className="flex flex-col gap-2 items-center w-full max-w-96">
+                                    <p className="text-3xl font-bold">Sponsorship</p>
+                                    <p>Vote & Propose budgets for the unions activities</p>
+                                </div>
+                            </div>
+                            <div className="p-4 md:p-6 w-full max-w-[36rem]">
+                                <Button className="w-full"
+                                    onClick={()=>{
+                                        router.push("/sponsorship")
+                                    }}
+                                >
+                                    Submit Proposal
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
+
+                    <div className="">
+                        <Card className="flex flex-col gap-2 items-center p-4 md:p-6">
+                            <div className="flex flex-col items-center gap-5">
+                                <Bike size={66} />
+                                <div className="flex flex-col gap-2 items-center w-full max-w-96">
+                                    <p className="text-3xl font-bold">Onwership</p>
+                                    <p>Finance the ownership of your 3wheeler</p>
+                                </div>
+                            </div>
+                            <div className="p-4 md:p-6 w-full max-w-[36rem]">
+                                <Button className="w-full"
+                                    onClick={()=>{
+                                        router.push("/ownership")
+                                    }}
+                                >
+                                    Finance Ownership
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
                 </div>
+            </div>
         </main>
     )
 }

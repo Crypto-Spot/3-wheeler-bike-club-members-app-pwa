@@ -11,7 +11,7 @@ export default async function Profile() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-between">
+    <main className="flex w-full h-screen">
       <Wrapper/>
     </main>
   );

@@ -7,6 +7,9 @@ import { config } from "@/utils/config";
 import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
 import { WagmiContext } from "@/providers/WagmiContext";
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { Menu } from "@/components/sidebar/menu";
+
 
 
 const geistSans = localFont({
@@ -38,13 +41,21 @@ export default function RootLayout({
     config, 
     headers().get("cookie") 
   ) 
+  
+
   return (
+    
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <WagmiContext initialState={initialState!}>
-          <PrivyContext>{children}</PrivyContext>
+          <PrivyContext>
+            <SidebarProvider defaultOpen={false}>
+                <Menu />
+                {children}
+            </SidebarProvider>
+          </PrivyContext>
         </WagmiContext>
       </body>
     </html>
