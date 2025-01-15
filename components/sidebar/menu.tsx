@@ -30,7 +30,7 @@ export function Menu() {
 
   return (
     <Sidebar>
-      <div className="flex flex-col h-full pt-4 md:pt-8 lg:pt-20 w-full gap-6">
+      <div className="flex flex-col h-full pt-4 md:pt-6 lg:pt-8 w-full gap-6">
         <SidebarHeader>
           <Image src="/icons/512x512.png" alt="logo" width={40} height={40} /> 
         </SidebarHeader>

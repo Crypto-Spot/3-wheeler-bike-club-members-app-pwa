@@ -11,7 +11,7 @@ export default async function Profile() {
   }
 
   return (
-    <main className="flex w-full h-screen">
+    <main className="flex w-screen h-screen">
       <Wrapper/>
     </main>
   );

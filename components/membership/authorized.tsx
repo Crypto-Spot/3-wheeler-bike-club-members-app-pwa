@@ -1,26 +1,49 @@
 /*
 import { usePrivy } from "@privy-io/react-auth";
-import Image from "next/image";
+
 import { Logout } from "./logout";
 import { Invoice } from "./invoice";
 import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
 import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { Countries, Country } from "@/utils/constants/countries";
 */
-import { SidebarTrigger } from "../ui/sidebar";
+
+import { Coins } from "lucide-react";
+import { Menu } from "../topnav/menu";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import Image from "next/image";
 
 export function Authorized() {
     
+    
     return (
-        <main className="flex min-h-screen w-full">
-            <div className="flex-1 p-8">
-                <div>
-                    <SidebarTrigger />
+        <main className="flex h-full w-full">
+            <div className="flex flex-col h-full p-4 md:p-6 lg:p-8 w-full gap-6">
+                
+                <Menu/>
+
+                <div className="flex w-full justify-center">
+                    <Alert className="w-full max-w-[66rem]">
+                        <Coins className="h-4 w-4" />
+                        <AlertTitle className="font-bold">Membership!</AlertTitle>
+                        <AlertDescription className="text-xs italic">
+                            Pay Membership Dues & build your reputation.
+                        </AlertDescription>
+                    </Alert>
+                </div>
+
+                <div className="flex items-center justify-center">
+                    <Image src="/images/construction.svg" alt="sponsorship" width={900} height={900} />  
+                </div>
+
+                <div className="flex flex-col gap-4 w-full flex-1 overflow-y-auto">
+
                 </div>
             </div>
         </main>
     )
 }
+
 /*
 export function Authorized() {
 
@@ -29,6 +52,7 @@ export function Authorized() {
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
+
     const { invoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
     console.log(invoiceAttestations)
 
@@ -83,7 +107,6 @@ export function Authorized() {
                                                 Your Weekly Membership Invoices will appear here. Pay them on time for good credit
                                             </>
                                         )
-
                                         :(
                                             <div className="flex flex-col gap-8">
                                                 <div className="flex flex-col gap-2">

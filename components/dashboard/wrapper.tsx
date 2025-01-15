@@ -20,7 +20,7 @@ export function Wrapper() {
             </>
         )
         :(
-          <>
+            <>
                 <main className="flex w-full h-full">
                   {
                     authenticated
@@ -28,8 +28,7 @@ export function Wrapper() {
                     : <Unauthorized/>
                   }
                 </main>
-            </>
-            
+            </>   
         )
       }
     </>

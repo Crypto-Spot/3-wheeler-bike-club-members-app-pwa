@@ -20,9 +20,15 @@ export function Wrapper() {
             </>
         )
         :(
-            authenticated
-            ? <Authorized/>
-            : <Unauthorized/>
+            <>
+                <main className="flex w-full h-full">
+                  {
+                    authenticated
+                    ? <Authorized/>
+                    : <Unauthorized/>
+                  }
+                </main>
+            </>
         )
       }
     </>
