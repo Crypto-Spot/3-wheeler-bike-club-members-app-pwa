@@ -23,7 +23,13 @@ export function Authorized() {
                 </div>
                     
                 <div className="flex items-center justify-center">
-                    <Image src="/images/construction.svg" alt="sponsorship" width={900} height={900} />  
+                    <Image 
+                        src="/images/construction.svg" 
+                        alt="sponsorship" 
+                        width={800} 
+                        height={800}
+                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
+                    />    
                 </div>
             </div>
         </main>

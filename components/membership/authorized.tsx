@@ -12,6 +12,7 @@ import { Coins } from "lucide-react";
 import { Menu } from "../topnav/menu";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import Image from "next/image";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 export function Authorized() {
     
@@ -32,13 +33,84 @@ export function Authorized() {
                     </Alert>
                 </div>
 
-                <div className="flex items-center justify-center">
-                    <Image src="/images/construction.svg" alt="sponsorship" width={900} height={900} />  
+                <div className="flex w-full justify-center">
+                    <Tabs defaultValue="invoices" className="w-full max-w-[66rem]">
+                        <TabsList className="flex w-full h-28 max-lg:h-52">
+                            <div className="flex w-full max-lg:flex-col">
+                                <div className="w-1/2 max-lg:w-full">
+                                    <TabsTrigger value="score" className="w-full h-28">
+                                        <div className="flex flex-col gap-2">
+                                            <p>Credit Score</p>
+                                            <div className="flex flex-col gap-2">
+                                                <p>Your Score is: </p>
+                                                <p>750</p>
+                                            </div>
+                                        </div>
+                                    </TabsTrigger>
+                                </div>
+                                <div className="w-1/2 max-lg:w-full">
+                                    <TabsTrigger value="invoices" className="h-28 w-1/2">
+                                        <div className="flex flex-col gap-2">
+                                            <p>Invoices</p>
+                                            <div className="flex flex-col gap-2">
+                                                <p>Your Unpaid Dues are: </p>
+                                                <p>0</p>
+                                            </div>
+                                        </div>
+                                    </TabsTrigger>
+                                    <TabsTrigger value="receipts" className="h-28 w-1/2">
+                                        <div className="flex flex-col gap-2">
+                                            <p>Receipts</p>
+                                            <div className="flex flex-col gap-2">
+                                                <p>Your Paid Invoices are: </p>
+                                                <p>0</p>
+                                            </div>
+                                        </div>
+                                    </TabsTrigger>
+                                </div>
+                            </div>
+                    
+                        </TabsList>
+                        <div className="flex flex-col gap-4 w-full flex-1 overflow-y-auto">
+                            <TabsContent value="score">
+                                <div className="flex flex-1 items-center justify-center">
+                                    <Image 
+                                        src="/images/construction.svg" 
+                                        alt="sponsorship" 
+                                        width={800} 
+                                        height={800}
+                                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
+                                    />  
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="invoices">
+                                <div className="flex flex-1 items-center justify-center">
+                                    <Image 
+                                        src="/images/construction.svg" 
+                                        alt="sponsorship" 
+                                        width={800} 
+                                        height={800}
+                                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
+                                    />  
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="receipts">
+                                <div className="flex flex-1 items-center justify-center">
+                                    <Image 
+                                        src="/images/construction.svg" 
+                                        alt="sponsorship" 
+                                        width={800} 
+                                        height={800}
+                                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
+                                    />  
+                                </div>
+                            </TabsContent>
+                        </div>
+                    </Tabs>
+
                 </div>
 
-                <div className="flex flex-col gap-4 w-full flex-1 overflow-y-auto">
-
-                </div>
+                
             </div>
         </main>
     )
