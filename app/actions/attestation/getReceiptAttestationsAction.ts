@@ -1,17 +1,17 @@
 "use server"
 
 export async function getReceiptAttestationsAction (
-    invoiceSchemaID: string
+    address: string
 ) {
     try {
-        const res = await fetch(`${process.env.BASE_URL}/api/getReceiptAttestation`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/getReceiptAttestations`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
                 "x-api-key": `${process.env.WHEELER_API_KEY}`
             },
             body: JSON.stringify({
-                invoiceSchemaID: invoiceSchemaID
+                address: address
             })
         }) 
         const data =  await res.json()

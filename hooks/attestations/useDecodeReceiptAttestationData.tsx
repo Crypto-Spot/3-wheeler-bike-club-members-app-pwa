@@ -3,7 +3,7 @@ import { decodeAttestation } from "@/utils/attest/decodeAttestation"
 import { receiptSchemaData } from "@/utils/constants/addresses"
 import { useState, useEffect } from "react"
 
-interface receiptSchemaData {
+export interface receiptSchemaData {
     Amount: BigInt,
     //Currency: string
     Week: string,
@@ -12,27 +12,27 @@ interface receiptSchemaData {
 }
 
 export const useDecodeReceiptAttestationData = (attestationData: string| undefined) => {
-    const [receiptAttestation, setReceiptAttestation] = useState<receiptSchemaData | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<any | null>(null)
+    const [receiptAttestationData, setReceiptAttestationData] = useState<receiptSchemaData | null>(null)
+    const [loadingDecodeReceipts, setLoadingDecodeReceipts] = useState<boolean>(true)
+    const [errorDecodeReceipts, setErrorDecodeReceipts] = useState<any | null>(null)
+
 
     useEffect (() =>{
         async function decodeReceiptAttestationData() {
             if (attestationData) {
-                setLoading(true);
+                setLoadingDecodeReceipts(true);
                 try {
-                    
                     const data = await decodeAttestation(attestationData, receiptSchemaData)
-                    setReceiptAttestation(data)
+                    setReceiptAttestationData(data)
                 } catch(err){
-                    setError(err)
+                    setErrorDecodeReceipts(err)
                 }
-                setLoading(false)
+                setLoadingDecodeReceipts(false)
             }
         }
         decodeReceiptAttestationData()
     },[ attestationData ])
 
 
-    return {receiptAttestation, loading, error}
+    return {receiptAttestationData, loadingDecodeReceipts, errorDecodeReceipts}
 }

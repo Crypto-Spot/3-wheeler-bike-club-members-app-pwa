@@ -1,22 +1,46 @@
-/*
+
 import { usePrivy } from "@privy-io/react-auth";
-
-import { Logout } from "./logout";
-import { Invoice } from "./invoice";
-import { OffchainInvoiceAttestation, useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
-import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
-import { Countries, Country } from "@/utils/constants/countries";
-*/
-
 import { Coins } from "lucide-react";
 import { Menu } from "../topnav/menu";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
+import { Countries, Country } from "@/utils/constants/countries";
+import { Invoice } from "./invoice";
+import { useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
+import { useGetReceiptAttestations } from "@/hooks/attestations/useGetReceipAttestations";
+
 
 export function Authorized() {
+
+    const {user} = usePrivy();
+    console.log(user)
+
     
     
+    const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
+    console.log(smartWallet?.address);
+    
+    
+
+    const { invoiceAttestations, loading: loadingInvoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
+    console.log(invoiceAttestations)
+    
+
+
+    const { receiptAttestations, loading: loadingReceiptAttestations } = useGetReceiptAttestations( smartWallet?.address )
+    console.log(receiptAttestations)
+
+    
+
+    const country = Countries[user?.customMetadata?.country as keyof typeof Countries] as Country;
+    console.log(country)
+
+    const { currencyRate } = useGetCurrencyRate(country.code)
+    console.log(currencyRate)
+
+
     return (
         <main className="flex h-full w-full">
             <div className="flex flex-col h-full p-4 md:p-6 lg:p-8 w-full gap-6">
@@ -42,7 +66,6 @@ export function Authorized() {
                                         <div className="flex flex-col gap-2">
                                             <p>Credit Score</p>
                                             <div className="flex flex-col gap-2">
-                                                <p>Your Score is: </p>
                                                 <p>750</p>
                                             </div>
                                         </div>
@@ -53,8 +76,22 @@ export function Authorized() {
                                         <div className="flex flex-col gap-2">
                                             <p>Invoices</p>
                                             <div className="flex flex-col gap-2">
-                                                <p>Your Unpaid Dues are: </p>
-                                                <p>0</p>
+                                                
+                                                {
+                                                    invoiceAttestations == null && loadingInvoiceAttestations == true && (
+                                                        <p>Loading...</p>
+                                                    )
+                                                }
+                                                {
+                                                    invoiceAttestations == null && loadingInvoiceAttestations == false && (
+                                                        <p>0</p>
+                                                    )
+                                                }
+                                                {
+                                                    invoiceAttestations != null && (
+                                                        <p>{invoiceAttestations?.length}</p>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </TabsTrigger>
@@ -62,8 +99,21 @@ export function Authorized() {
                                         <div className="flex flex-col gap-2">
                                             <p>Receipts</p>
                                             <div className="flex flex-col gap-2">
-                                                <p>Your Paid Invoices are: </p>
-                                                <p>0</p>
+                                                {
+                                                    receiptAttestations == null && loadingReceiptAttestations == true && (
+                                                        <p>Loading...</p>
+                                                    )
+                                                }
+                                                {
+                                                    receiptAttestations == null && loadingReceiptAttestations == false && (
+                                                        <p>0</p>
+                                                    )
+                                                }
+                                                {
+                                                    receiptAttestations != null && (
+                                                        <p>{receiptAttestations?.length}</p>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </TabsTrigger>
@@ -84,14 +134,35 @@ export function Authorized() {
                                 </div>
                             </TabsContent>
                             <TabsContent value="invoices">
-                                <div className="flex flex-1 items-center justify-center">
-                                    <Image 
-                                        src="/images/construction.svg" 
-                                        alt="sponsorship" 
-                                        width={800} 
-                                        height={800}
-                                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
-                                    />  
+                                <div className="flex flex-1 flex-col items-center justify-center">
+                                    {
+                                        invoiceAttestations == null && loadingInvoiceAttestations == true && (
+                                            <p>Loading...</p>
+                                        )
+                                    }
+                                    {
+                                        invoiceAttestations == null && loadingInvoiceAttestations == false && (
+                                            <>
+                                                <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        invoiceAttestations != null && (
+                                            <>
+                                                {
+                                                    invoiceAttestations?.map((invoiceAttestation) => (
+                                                        <Invoice 
+                                                            key={invoiceAttestation._id} 
+                                                            address={smartWallet?.address} 
+                                                            invoiceAttestation={invoiceAttestation} 
+                                                            currencyRate={currencyRate!}
+                                                        />
+                                                    ))
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </TabsContent>
                             <TabsContent value="receipts">
@@ -129,11 +200,7 @@ export function Authorized() {
     console.log(invoiceAttestations)
 
     
-    const country = Countries[user?.customMetadata?.country as keyof typeof Countries] as Country;
-    console.log(country)
-
-    const { currencyRate } = useGetCurrencyRate(country.code)
-    console.log(currencyRate)
+    
     
     const privyUserMetadata = user?.customMetadata
     
@@ -186,9 +253,7 @@ export function Authorized() {
                                                     <p>Your Total score is: </p>
                                                 </div>
                                                 <div>
-                                                {invoiceAttestations?.map((invoiceAttestation: OffchainInvoiceAttestation) => (
-                                                    <Invoice key={invoiceAttestation._id} address={smartWallet?.address} invoiceAttestation={invoiceAttestation} currencyRate={currencyRate!}/>
-                                                ))}
+                                                
                                                 </div>
                                             </div>
                                         )

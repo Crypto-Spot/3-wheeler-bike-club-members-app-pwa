@@ -1,19 +1,19 @@
-import { OffchainInvoiceAttestation } from "@/hooks/attestations/useGetInvoiceAttestations";
+
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { usePaystackPayment } from "react-paystack"
 import { PaystackProps } from "react-paystack/dist/types";
-import { useGetReceiptAttestation } from "@/hooks/attestations/useGetReceipAttestation";
 import { postReceiptAttestationAction } from "@/app/actions/attestation/postReceiptAttestationAction";
 import { deconstructAttestationData } from "@/utils/attest/deconstructAttestationData";
 import { attestReceipt } from "@/utils/attest/attestReceipt";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
-import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
 import { useDecodeInvoiceAttestationData } from "@/hooks/attestations/useDecodeInvoiceAttestationData";
+import { OffchainInvoiceAttestation } from "@/hooks/attestations/useGetInvoiceAttestations";
+import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
 
 interface InvoiceProps {
-    address: string
+    address: string | undefined
     invoiceAttestation: OffchainInvoiceAttestation
     currencyRate: CurrencyRate
 }
@@ -23,13 +23,9 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
     const {user} = usePrivy();
     console.log(currencyRate?.currency)
 
-    const { receiptAttestation, getBackReceiptAttestation } = useGetReceiptAttestation( invoiceAttestation.invoiceSchemaID )
-    console.log(receiptAttestation)
-
-
     const { attestation } = useGetAttestationData( invoiceAttestation.invoiceSchemaID )
     console.log(attestation)
-
+    
     const { invoiceAttestationData } = useDecodeInvoiceAttestationData( attestation?.data )
     console.log(invoiceAttestationData)
 
@@ -49,13 +45,13 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
         // Implementation for whatever you want to do with reference and after success call.
         console.log('reference', reference);
         const recepient: string[] = []
-        recepient.push(address)
+        recepient.push(address!)
         const deconstructedAttestationData = await deconstructAttestationData(invoiceAttestation.invoiceSchemaID, recepient, 2, "52,2024", 7 )
         const receipt = await attestReceipt(deconstructedAttestationData)
         if (receipt) {
-            await postReceiptAttestationAction(address, invoiceAttestation.invoiceSchemaID, receipt?.attestationId)
+            await postReceiptAttestationAction(address!, invoiceAttestation.invoiceSchemaID, receipt?.attestationId)
         }
-        getBackReceiptAttestation()
+        //getBackReceiptAttestation()
     };
       
     const onClose = () => {
@@ -72,39 +68,21 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
 
     return(
         <>
-            <Card className="flex justify-between">
+            <Card className="flex w-full justify-between">
                 <div className="flex flex-col">
                     <p>Amount: {Number(invoiceAttestationData?.Amount)}</p>
                     <p>Week: {invoiceAttestationData?.Week}</p>
                     <div>
-                        {
-                            !receiptAttestation
-                            ? (
-                                <>
-                                <p>status: Unpaid { invoiceAttestation.invoiceSchemaID }</p>
-                                </>
-                            )
-                            : (
-                                <>
-                                    <p>status: Paid  { invoiceAttestation.invoiceSchemaID }</p>
                         
-                                </>
-                            
-                            )
-                        }
                     </div>
                 </div>
-                {
-                    !receiptAttestation && (
-                        <Button
-                            onClick={()=>{
-                                payMembershipDues()
-                            }}
-                        >
-                            Pay
-                        </Button>
-                    )
-                }
+                <Button
+                    onClick={()=>{
+                        payMembershipDues()
+                    }}
+                >
+                    Pay
+                </Button>
             </Card>
         </>
     )

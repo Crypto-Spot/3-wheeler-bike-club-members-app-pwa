@@ -3,33 +3,34 @@ import { decodeAttestation } from "@/utils/attest/decodeAttestation"
 import { invoiceSchemaData } from "@/utils/constants/addresses"
 import { useState, useEffect } from "react"
 
-interface invoiceSchemaData {
+export interface invoiceSchemaData {
     Amount: BigInt,
     Week: string
 }
 
 export const useDecodeInvoiceAttestationData = (attestationData: string| undefined) => {
     const [invoiceAttestationData, setInvoiceAttestationData] = useState<invoiceSchemaData | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<any | null>(null)
+    const [loadingDecodeInvoices, setLoadingDecodeInvoices] = useState<boolean>(true)
+    const [errorDecodeInvoices, setErrorDecodeInvoices] = useState<any | null>(null)
+
+    
 
     useEffect (() =>{
         async function decodeInvoiceAttestationData() {
             if (attestationData) {
-                setLoading(true);
+                setLoadingDecodeInvoices(true);
                 try {
-                    
                     const data = await decodeAttestation(attestationData, invoiceSchemaData)
                     setInvoiceAttestationData(data)
                 } catch(err){
-                    setError(err)
+                    setErrorDecodeInvoices(err)
                 }
-                setLoading(false)
+                setLoadingDecodeInvoices(false)
             }
         }
         decodeInvoiceAttestationData()
     },[ attestationData ])
 
 
-    return { invoiceAttestationData, loading, error}
+    return { invoiceAttestationData, loadingDecodeInvoices, errorDecodeInvoices}
 }
