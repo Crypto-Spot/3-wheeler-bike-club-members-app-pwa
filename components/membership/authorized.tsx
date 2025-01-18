@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { Countries, Country } from "@/utils/constants/countries";
 import { Invoice } from "./invoice";
+import { Receipt } from "./receipt";
 import { useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
 import { useGetReceiptAttestations } from "@/hooks/attestations/useGetReceipAttestations";
 
@@ -166,14 +167,33 @@ export function Authorized() {
                                 </div>
                             </TabsContent>
                             <TabsContent value="receipts">
-                                <div className="flex flex-1 items-center justify-center">
-                                    <Image 
-                                        src="/images/construction.svg" 
-                                        alt="sponsorship" 
-                                        width={800} 
-                                        height={800}
-                                        className="w-auto h-auto max-w-full max-h-[66vh] object-contain" 
-                                    />  
+                                <div className="flex flex-1 flex-col items-center justify-center">
+                                    {
+                                        receiptAttestations == null && loadingReceiptAttestations == true && (
+                                            <p>Loading...</p>
+                                        )
+                                    }
+                                    {
+                                        receiptAttestations == null && loadingReceiptAttestations == false && (
+                                            <>
+                                                <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        receiptAttestations != null && (
+                                            <>
+                                                {
+                                                    receiptAttestations?.map((receiptAttestation) => (
+                                                        <Receipt
+                                                            key={receiptAttestation._id} 
+                                                            receiptAttestation={receiptAttestation} 
+                                                        />
+                                                    ))
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </TabsContent>
                         </div>
