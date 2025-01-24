@@ -1,12 +1,13 @@
 import { Attestation, DataLocationOnChain } from "@ethsign/sp-sdk"
 import { attester, memberReceiptAttestationID } from "../constants/addresses"
 
-export async function deconstructAttestationData( linkedAttestationId: string, recipients: string[], amount: number, week: string, score: number ) {
+export async function deconstructAttestationData( linkedAttestationId: string, recipients: string[], amount: number, currency: string, week: string, score: number ) {
 
     const schemaData = {
-        Amount: amount,
-        Week: week,
-        Score: score
+        amount: amount,
+        currency: currency,
+        week: week,
+        score: score
     }
     const deconstructedAttestationData: Attestation= {
         schemaId: (memberReceiptAttestationID), // The final number from our schema's ID.

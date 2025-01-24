@@ -49,7 +49,7 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: In
         //calulate score
         const score = 7
         //deconstruct attestation data
-        const deconstructedAttestationData = await deconstructAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, memberInvoiceAttestation.week, score )
+        const deconstructedAttestationData = await deconstructAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, score )
         const receipt = await attestReceipt(deconstructedAttestationData)
         if (receipt) {
             await postMemberReceiptAttestationAction(address!, memberInvoiceAttestation.memberInvoiceAttestationID, receipt?.attestationId, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, 7 )
