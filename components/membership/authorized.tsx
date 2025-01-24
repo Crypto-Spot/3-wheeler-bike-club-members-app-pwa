@@ -25,12 +25,12 @@ export function Authorized() {
     
     
 
-    const { memberInvoiceAttestations, loading: loadingMemberInvoiceAttestations } = useGetMemberInvoiceAttestations( smartWallet?.address )
+    const { memberInvoiceAttestations, loading: loadingMemberInvoiceAttestations, getBackMemberInvoiceAttestations } = useGetMemberInvoiceAttestations( smartWallet?.address )
     console.log(memberInvoiceAttestations)
     
 
 
-    const { memberReceiptAttestations, loading: loadingMemberReceiptAttestations } = useGetMemberReceiptAttestations( smartWallet?.address )
+    const { memberReceiptAttestations, loading: loadingMemberReceiptAttestations, getBackMemberReceiptAttestations } = useGetMemberReceiptAttestations( smartWallet?.address )
     console.log(memberReceiptAttestations)
 
     
@@ -158,6 +158,8 @@ export function Authorized() {
                                                             address={smartWallet?.address} 
                                                             memberInvoiceAttestation={memberInvoiceAttestation} 
                                                             currencyRate={currencyRate!}
+                                                            getBackMemberInvoiceAttestations={getBackMemberInvoiceAttestations}
+                                                            getBackMemberReceiptAttestations={getBackMemberReceiptAttestations}
                                                         />
                                                     ))
                                                 }
@@ -187,7 +189,7 @@ export function Authorized() {
                                                     memberReceiptAttestations?.map((memberReceiptAttestation) => (
                                                         <Receipt
                                                             key={memberReceiptAttestation._id} 
-                                                            memberReceiptAttestation={memberReceiptAttestation} 
+                                                            memberReceiptAttestation={memberReceiptAttestation}  
                                                         />
                                                     ))
                                                 }

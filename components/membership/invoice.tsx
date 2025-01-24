@@ -4,22 +4,28 @@ import { Button } from "../ui/button";
 import { usePaystackPayment } from "react-paystack"
 import { PaystackProps } from "react-paystack/dist/types";
 import { postMemberReceiptAttestationAction } from "@/app/actions/attestation/postMemberReceiptAttestationAction";
-import { deconstructAttestationData } from "@/utils/attest/deconstructAttestationData";
-import { attestReceipt } from "@/utils/attest/attestReceipt";
+import { deconstructMemberReceiptAttestationData } from "@/utils/attest/member/receipt/deconstructMemberAttestationData";
+import { attestMemberReceipt } from "@/utils/attest/member/receipt/attestMemberReceipt";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { useDecodeMemberInvoiceAttestationData } from "@/hooks/attestations/useDecodeMemberInvoiceAttestationData";
 import { OffchainMemberInvoiceAttestation } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
 import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
+import { useState } from "react";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { motion } from "framer-motion";
 
 interface InvoiceProps {
     address: string | undefined
     memberInvoiceAttestation: OffchainMemberInvoiceAttestation
     currencyRate: CurrencyRate
+    getBackMemberInvoiceAttestations: () => Promise<void>
+    getBackMemberReceiptAttestations: () => Promise<void>
 }
 
-export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: InvoiceProps) {
-    
+export function Invoice ({ address, memberInvoiceAttestation, currencyRate, getBackMemberInvoiceAttestations, getBackMemberReceiptAttestations }: InvoiceProps) {
+    const [loading, setLoading] = useState(false)
+
     const {user} = usePrivy();
     console.log(currencyRate?.currency)
 
@@ -32,7 +38,7 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: In
     const config : PaystackProps = {
         reference: memberInvoiceAttestation.memberInvoiceAttestationID,
         email: user!.email!.address!,
-        amount: Number(currencyRate?.rate) * Number(2) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        amount: Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
         currency: currencyRate?.currency,
         channels: ['card', 'mobile_money'],
@@ -49,23 +55,28 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: In
         //calulate score
         const score = 7
         //deconstruct attestation data
-        const deconstructedAttestationData = await deconstructAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, score )
-        const receipt = await attestReceipt(deconstructedAttestationData)
+        const deconstructedAttestationData = await deconstructMemberReceiptAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, score )
+        const receipt = await attestMemberReceipt(deconstructedAttestationData)
         if (receipt) {
             await postMemberReceiptAttestationAction(address!, memberInvoiceAttestation.memberInvoiceAttestationID, receipt?.attestationId, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, 7 )
         }
-        //getBackReceiptAttestation()
+        await getBackMemberInvoiceAttestations()
+        await getBackMemberReceiptAttestations()
+        setLoading(false)
     };
       
     const onClose = () => {
         // implementation for whatever you want to do when the Paystack dialog closed.
         console.log('closed');
+        setLoading(false)
     };
 
     const initPaystackPayment = usePaystackPayment(config);
 
     const payMembershipDues = () => {
+        setLoading(true)
         initPaystackPayment({onSuccess, onClose})
+        
     }
     
 
@@ -80,11 +91,35 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: In
                     </div>
                 </div>
                 <Button
+                    disabled={loading}
+                    className="max-w-[10rem]"
                     onClick={()=>{
                         payMembershipDues()
                     }}
                 >
-                    Pay
+                    {
+                        loading
+                        ? (
+                            <>
+                                <motion.div
+                                initial={{ rotate: 0 }} // Initial rotation value (0 degrees)
+                                animate={{ rotate: 360 }} // Final rotation value (360 degrees)
+                                transition={{
+                                    duration: 1, // Animation duration in seconds
+                                    repeat: Infinity, // Infinity will make it rotate indefinitely
+                                    ease: "linear", // Animation easing function (linear makes it constant speed)
+                                }}
+                            >
+                                    <DotsHorizontalIcon/>
+                                </motion.div>
+                            </>
+                        )
+                        : (
+                            <>
+                                Pay
+                            </>
+                        )
+                    }
                 </Button>
             </Card>
         </>
