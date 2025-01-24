@@ -1,5 +1,5 @@
-import { useDecodeReceiptAttestationData } from "@/hooks/attestations/useDecodeReceiptAttestationData"
-import { OffchainReceiptAttestation } from "@/hooks/attestations/useGetReceipAttestations"
+import { useDecodeMemberReceiptAttestationData } from "@/hooks/attestations/useDecodeMemberReceiptAttestationData"
+import { OffchainMemberReceiptAttestation } from "@/hooks/attestations/useGetMemberReceipAttestations"
 import { Card } from "../ui/card"
 import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData"
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
@@ -7,23 +7,23 @@ import Image from "next/image"
 import { Button } from "../ui/button"
 
 interface ReceiptProps {
-    receiptAttestation: OffchainReceiptAttestation
+    memberReceiptAttestation: OffchainMemberReceiptAttestation
 }
-export function Receipt({ receiptAttestation }: ReceiptProps) {
+export function Receipt({ memberReceiptAttestation }: ReceiptProps) {
 
-    const { attestation } = useGetAttestationData( receiptAttestation.receiptSchemaID )
+    const { attestation } = useGetAttestationData( memberReceiptAttestation.memberReceiptAttestationID )
     console.log(attestation)
 
-    const { receiptAttestationData } = useDecodeReceiptAttestationData( attestation?.data )
-    console.log(receiptAttestationData)
+    const { memberReceiptAttestationData } = useDecodeMemberReceiptAttestationData( attestation?.data )
+    console.log(memberReceiptAttestationData)
 
     return (
         <>
             <Card className="flex w-full justify-between">
                 <div className="flex flex-col">
-                    <p>Amount: {Number(receiptAttestationData?.Amount)}</p>
-                    <p>Week: {receiptAttestationData?.Week}</p>
-                    <p>Score: {Number(receiptAttestationData?.Score)}</p>
+                    <p>Amount: {Number(memberReceiptAttestation?.amount)}</p>
+                    <p>Week: {memberReceiptAttestation?.week}</p>
+                    <p>Score: {Number(memberReceiptAttestation?.score)}</p>
                 </div>
                 <Sheet>
                     <SheetTrigger asChild>

@@ -3,34 +3,34 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { usePaystackPayment } from "react-paystack"
 import { PaystackProps } from "react-paystack/dist/types";
-import { postReceiptAttestationAction } from "@/app/actions/attestation/postReceiptAttestationAction";
+import { postMemberReceiptAttestationAction } from "@/app/actions/attestation/postMemberReceiptAttestationAction";
 import { deconstructAttestationData } from "@/utils/attest/deconstructAttestationData";
 import { attestReceipt } from "@/utils/attest/attestReceipt";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
-import { useDecodeInvoiceAttestationData } from "@/hooks/attestations/useDecodeInvoiceAttestationData";
-import { OffchainInvoiceAttestation } from "@/hooks/attestations/useGetInvoiceAttestations";
+import { useDecodeMemberInvoiceAttestationData } from "@/hooks/attestations/useDecodeMemberInvoiceAttestationData";
+import { OffchainMemberInvoiceAttestation } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
 import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
 
 interface InvoiceProps {
     address: string | undefined
-    invoiceAttestation: OffchainInvoiceAttestation
+    memberInvoiceAttestation: OffchainMemberInvoiceAttestation
     currencyRate: CurrencyRate
 }
 
-export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceProps) {
+export function Invoice ({ address, memberInvoiceAttestation, currencyRate }: InvoiceProps) {
     
     const {user} = usePrivy();
     console.log(currencyRate?.currency)
 
-    const { attestation } = useGetAttestationData( invoiceAttestation.invoiceSchemaID )
+    const { attestation } = useGetAttestationData( memberInvoiceAttestation.memberInvoiceAttestationID )
     console.log(attestation)
     
-    const { invoiceAttestationData } = useDecodeInvoiceAttestationData( attestation?.data )
-    console.log(invoiceAttestationData)
+    const { memberInvoiceAttestationData } = useDecodeMemberInvoiceAttestationData( attestation?.data )
+    console.log(memberInvoiceAttestationData)
 
     const config : PaystackProps = {
-        reference: invoiceAttestation.invoiceSchemaID,
+        reference: memberInvoiceAttestation.memberInvoiceAttestationID,
         email: user!.email!.address!,
         amount: Number(currencyRate?.rate) * Number(2) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
@@ -46,10 +46,13 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
         console.log('reference', reference);
         const recepient: string[] = []
         recepient.push(address!)
-        const deconstructedAttestationData = await deconstructAttestationData(invoiceAttestation.invoiceSchemaID, recepient, 2, "52,2024", 7 )
+        //calulate score
+        const score = 7
+        //deconstruct attestation data
+        const deconstructedAttestationData = await deconstructAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, memberInvoiceAttestation.week, score )
         const receipt = await attestReceipt(deconstructedAttestationData)
         if (receipt) {
-            await postReceiptAttestationAction(address!, invoiceAttestation.invoiceSchemaID, receipt?.attestationId)
+            await postMemberReceiptAttestationAction(address!, memberInvoiceAttestation.memberInvoiceAttestationID, receipt?.attestationId, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, 7 )
         }
         //getBackReceiptAttestation()
     };
@@ -70,8 +73,8 @@ export function Invoice ({ address, invoiceAttestation, currencyRate }: InvoiceP
         <>
             <Card className="flex w-full justify-between">
                 <div className="flex flex-col">
-                    <p>Amount: {Number(invoiceAttestationData?.Amount)}</p>
-                    <p>Week: {invoiceAttestationData?.Week}</p>
+                    <p>Amount: {Number(memberInvoiceAttestation?.amount)}</p>
+                    <p>Week: {memberInvoiceAttestation?.week}</p>
                     <div>
                         
                     </div>

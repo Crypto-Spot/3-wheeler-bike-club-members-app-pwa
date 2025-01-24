@@ -9,8 +9,8 @@ import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { Countries, Country } from "@/utils/constants/countries";
 import { Invoice } from "./invoice";
 import { Receipt } from "./receipt";
-import { useGetInvoiceAttestations } from "@/hooks/attestations/useGetInvoiceAttestations";
-import { useGetReceiptAttestations } from "@/hooks/attestations/useGetReceipAttestations";
+import { useGetMemberInvoiceAttestations } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
+import { useGetMemberReceiptAttestations } from "@/hooks/attestations/useGetMemberReceipAttestations";
 
 
 export function Authorized() {
@@ -25,13 +25,13 @@ export function Authorized() {
     
     
 
-    const { invoiceAttestations, loading: loadingInvoiceAttestations } = useGetInvoiceAttestations( smartWallet?.address )
-    console.log(invoiceAttestations)
+    const { memberInvoiceAttestations, loading: loadingMemberInvoiceAttestations } = useGetMemberInvoiceAttestations( smartWallet?.address )
+    console.log(memberInvoiceAttestations)
     
 
 
-    const { receiptAttestations, loading: loadingReceiptAttestations } = useGetReceiptAttestations( smartWallet?.address )
-    console.log(receiptAttestations)
+    const { memberReceiptAttestations, loading: loadingMemberReceiptAttestations } = useGetMemberReceiptAttestations( smartWallet?.address )
+    console.log(memberReceiptAttestations)
 
     
 
@@ -79,18 +79,18 @@ export function Authorized() {
                                             <div className="flex flex-col gap-2">
                                                 
                                                 {
-                                                    invoiceAttestations == null && loadingInvoiceAttestations == true && (
+                                                    memberInvoiceAttestations == null && loadingMemberInvoiceAttestations == true && (
                                                         <p>Loading...</p>
                                                     )
                                                 }
                                                 {
-                                                    invoiceAttestations == null && loadingInvoiceAttestations == false && (
+                                                    memberInvoiceAttestations == null && loadingMemberInvoiceAttestations == false && (
                                                         <p>0</p>
                                                     )
                                                 }
                                                 {
-                                                    invoiceAttestations != null && (
-                                                        <p>{invoiceAttestations?.length}</p>
+                                                    memberInvoiceAttestations != null && (
+                                                        <p>{memberInvoiceAttestations?.length}</p>
                                                     )
                                                 }
                                             </div>
@@ -101,18 +101,18 @@ export function Authorized() {
                                             <p>Receipts</p>
                                             <div className="flex flex-col gap-2">
                                                 {
-                                                    receiptAttestations == null && loadingReceiptAttestations == true && (
+                                                    memberReceiptAttestations == null && loadingMemberReceiptAttestations == true && (
                                                         <p>Loading...</p>
                                                     )
                                                 }
                                                 {
-                                                    receiptAttestations == null && loadingReceiptAttestations == false && (
+                                                    memberReceiptAttestations == null && loadingMemberReceiptAttestations == false && (
                                                         <p>0</p>
                                                     )
                                                 }
                                                 {
-                                                    receiptAttestations != null && (
-                                                        <p>{receiptAttestations?.length}</p>
+                                                    memberReceiptAttestations != null && (
+                                                        <p>{memberReceiptAttestations?.length}</p>
                                                     )
                                                 }
                                             </div>
@@ -137,26 +137,26 @@ export function Authorized() {
                             <TabsContent value="invoices">
                                 <div className="flex flex-1 flex-col items-center justify-center">
                                     {
-                                        invoiceAttestations == null && loadingInvoiceAttestations == true && (
+                                        memberInvoiceAttestations == null && loadingMemberInvoiceAttestations == true && (
                                             <p>Loading...</p>
                                         )
                                     }
                                     {
-                                        invoiceAttestations == null && loadingInvoiceAttestations == false && (
+                                        memberInvoiceAttestations == null && loadingMemberInvoiceAttestations == false && (
                                             <>
                                                 <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
                                             </>
                                         )
                                     }
                                     {
-                                        invoiceAttestations != null && (
+                                        memberInvoiceAttestations != null && (
                                             <>
                                                 {
-                                                    invoiceAttestations?.map((invoiceAttestation) => (
+                                                    memberInvoiceAttestations?.map((memberInvoiceAttestation) => (
                                                         <Invoice 
-                                                            key={invoiceAttestation._id} 
+                                                            key={memberInvoiceAttestation._id} 
                                                             address={smartWallet?.address} 
-                                                            invoiceAttestation={invoiceAttestation} 
+                                                            memberInvoiceAttestation={memberInvoiceAttestation} 
                                                             currencyRate={currencyRate!}
                                                         />
                                                     ))
@@ -169,25 +169,25 @@ export function Authorized() {
                             <TabsContent value="receipts">
                                 <div className="flex flex-1 flex-col items-center justify-center">
                                     {
-                                        receiptAttestations == null && loadingReceiptAttestations == true && (
+                                        memberReceiptAttestations == null && loadingMemberReceiptAttestations == true && (
                                             <p>Loading...</p>
                                         )
                                     }
                                     {
-                                        receiptAttestations == null && loadingReceiptAttestations == false && (
+                                        memberReceiptAttestations == null && loadingMemberReceiptAttestations == false && (
                                             <>
                                                 <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
                                             </>
                                         )
                                     }
                                     {
-                                        receiptAttestations != null && (
+                                        memberReceiptAttestations != null && (
                                             <>
                                                 {
-                                                    receiptAttestations?.map((receiptAttestation) => (
+                                                    memberReceiptAttestations?.map((memberReceiptAttestation) => (
                                                         <Receipt
-                                                            key={receiptAttestation._id} 
-                                                            receiptAttestation={receiptAttestation} 
+                                                            key={memberReceiptAttestation._id} 
+                                                            memberReceiptAttestation={memberReceiptAttestation} 
                                                         />
                                                     ))
                                                 }

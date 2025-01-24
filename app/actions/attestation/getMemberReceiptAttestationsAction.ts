@@ -1,10 +1,10 @@
 "use server"
 
-export async function getInvoiceAttestationsAction (
+export async function getMemberReceiptAttestationsAction (
     address: string
 ) {
     try {
-        const res = await fetch(`${process.env.BASE_URL}/api/getInvoiceAttestatoins`, {
+        const res = await fetch(`${process.env.BASE_URL}/api/getMemberReceiptAttestations`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
