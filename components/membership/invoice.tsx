@@ -14,6 +14,7 @@ import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationDat
 import { useState } from "react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { calculateScore } from "@/utils/attest/calculateScore";
 
 interface InvoiceProps {
     address: string | undefined
@@ -53,7 +54,7 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate, getB
         const recepient: string[] = []
         recepient.push(address!)
         //calulate score
-        const score = 7
+        const score = calculateScore(memberInvoiceAttestation.createdAt)
         //deconstruct attestation data
         const deconstructedAttestationData = await deconstructMemberReceiptAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, score )
         const receipt = await attestMemberReceipt(deconstructedAttestationData)

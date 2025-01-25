@@ -8,6 +8,7 @@ export interface OffchainMemberInvoiceAttestation {
     memberInvoiceAttestationID: string
     amount: number
     week: string
+    createdAt: string
 }
 
 export const useGetMemberInvoiceAttestations = (address: string| undefined) => {
