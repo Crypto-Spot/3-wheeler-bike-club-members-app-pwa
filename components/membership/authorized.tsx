@@ -1,4 +1,3 @@
-
 import { usePrivy } from "@privy-io/react-auth";
 import { Coins } from "lucide-react";
 import { Menu } from "../topnav/menu";
@@ -9,9 +8,17 @@ import { useGetCurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { Countries, Country } from "@/utils/constants/countries";
 import { Invoice } from "./invoice";
 import { Receipt } from "./receipt";
-import { useGetMemberInvoiceAttestations } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
+import { OffchainMemberInvoiceAttestation, useGetMemberInvoiceAttestations } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
 import { useGetMemberReceiptAttestations } from "@/hooks/attestations/useGetMemberReceipAttestations";
 import { useGetMemberCreditScoreAttestation } from "@/hooks/attestations/useGetMemberCreditScoreAttestation";
+import { postMemberCreditScoreAttestationAction } from "@/app/actions/attestation/postMemberCreditScoreAttestationAction";
+import { attest } from "@/utils/attestation/attest";
+import { deconstructMemberCreditScoreAttestationData } from "@/utils/attestation/member/creditScore/deconstructMemberCreditScoreAttestationData";
+import { revoke } from "@/utils/attestation/revoke";
+import { calculateScore } from "@/utils/attestation/calculateScore";
+import { postMemberReceiptAttestationAction } from "@/app/actions/attestation/postMemberReceiptAttestationAction";
+import { deconstructMemberReceiptAttestationData } from "@/utils/attestation/member/receipt/deconstructMemberReceiptAttestationData";
+import { useState } from "react";
 
 
 export function Authorized() {
@@ -19,7 +26,8 @@ export function Authorized() {
     const {user} = usePrivy();
     console.log(user)
 
-    
+    const [loadingInvoicePayment, setLoadingInvoicePayment] = useState(false)
+    const [invoicePaymentLoadingId, setInvoicePaymentLoadingId] = useState<string | null>(null)
     
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
@@ -46,6 +54,75 @@ export function Authorized() {
     const { currencyRate } = useGetCurrencyRate(country.code)
     console.log(currencyRate)
 
+    async function afterPaymentSuccess(memberInvoiceAttestation: OffchainMemberInvoiceAttestation) {
+        if (!smartWallet?.address) return;
+
+        const recepient: string[] = []
+        recepient.push(smartWallet.address)
+        
+        const score = calculateScore(memberInvoiceAttestation.createdAt)
+        
+        if (!currencyRate?.rate || !currencyRate?.currency) return;
+
+        // Deconstruct attestation data
+        const deconstructedAttestationData = await deconstructMemberReceiptAttestationData(
+            memberInvoiceAttestation.memberInvoiceAttestationID, 
+            recepient,
+            (Number(currencyRate.rate) * memberInvoiceAttestation.amount * 100),
+            currencyRate.currency,
+            memberInvoiceAttestation.week,
+            score
+        )
+
+        const memberReceiptAttested = await attest(deconstructedAttestationData)
+        if (memberReceiptAttested) {
+            // Post receipt attestation offchain
+            await postMemberReceiptAttestationAction(
+                smartWallet.address,
+                memberInvoiceAttestation.memberInvoiceAttestationID,
+                memberReceiptAttested.attestationId,
+                (Number(currencyRate.rate) * memberInvoiceAttestation.amount * 100),
+                currencyRate.currency,
+                memberInvoiceAttestation.week,
+                score
+            )
+
+            if (!memberCreditScoreAttestation?.memberCreditScoreAttestationID) return;
+
+            // Revoke previous credit score attestation
+            const revokeMemberCreditScoreAttestation = await revoke(memberCreditScoreAttestation.memberCreditScoreAttestationID)
+            
+            if (revokeMemberCreditScoreAttestation) {
+                if (
+                    typeof memberCreditScoreAttestation.score === 'undefined' ||
+                    typeof memberCreditScoreAttestation.paidWeeks === 'undefined' ||
+                    typeof memberCreditScoreAttestation.invoicedWeeks === 'undefined'
+                ) return;
+
+                // Create new credit score attestation
+                const deconstructedCreditScoreAttestationData = await deconstructMemberCreditScoreAttestationData(
+                    recepient,
+                    (memberCreditScoreAttestation.score + score),
+                    (memberCreditScoreAttestation.paidWeeks + 1),
+                    memberCreditScoreAttestation.invoicedWeeks
+                )
+
+                const memberCreditScoreAttested = await attest(deconstructedCreditScoreAttestationData)
+                if (memberCreditScoreAttested) {
+                    await postMemberCreditScoreAttestationAction(
+                        smartWallet.address,
+                        memberCreditScoreAttested.attestationId,
+                        (memberCreditScoreAttestation.score + score),
+                        (memberCreditScoreAttestation.paidWeeks + 1)
+                    )
+                }
+            }
+        }
+
+        await getBackMemberInvoiceAttestations()
+        await getBackMemberReceiptAttestations()
+        await getBackMemberCreditScoreAttestation()
+    }
 
     return (
         <main className="flex h-full w-full">
@@ -174,13 +251,13 @@ export function Authorized() {
                                                     memberInvoiceAttestations?.map((memberInvoiceAttestation) => (
                                                         <Invoice 
                                                             key={memberInvoiceAttestation._id} 
-                                                            address={smartWallet?.address} 
                                                             memberInvoiceAttestation={memberInvoiceAttestation} 
-                                                            memberCreditScoreAttestation={memberCreditScoreAttestation!}
                                                             currencyRate={currencyRate!}
-                                                            getBackMemberInvoiceAttestations={getBackMemberInvoiceAttestations}
-                                                            getBackMemberReceiptAttestations={getBackMemberReceiptAttestations}
-                                                            getBackMemberCreditScoreAttestation={getBackMemberCreditScoreAttestation}
+                                                            afterPaymentSuccess={afterPaymentSuccess}
+                                                            loadingInvoicePayment={loadingInvoicePayment}
+                                                            setLoadingInvoicePayment={setLoadingInvoicePayment}
+                                                            invoicePaymentLoadingId={invoicePaymentLoadingId}
+                                                            setInvoicePaymentLoadingId={setInvoicePaymentLoadingId}
                                                         />
                                                     ))
                                                 }
