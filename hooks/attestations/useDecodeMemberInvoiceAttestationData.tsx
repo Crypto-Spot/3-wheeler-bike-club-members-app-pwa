@@ -1,5 +1,5 @@
 
-import { decodeAttestation } from "@/utils/attest/decodeAttestation"
+import { decodeAttestation } from "@/utils/attestation/decodeAttestation"
 import { memberInvoiceSchemaData } from "@/utils/constants/addresses"
 import { useState, useEffect } from "react"
 

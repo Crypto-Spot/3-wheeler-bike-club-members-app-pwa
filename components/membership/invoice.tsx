@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 import { usePaystackPayment } from "react-paystack"
 import { PaystackProps } from "react-paystack/dist/types";
 import { postMemberReceiptAttestationAction } from "@/app/actions/attestation/postMemberReceiptAttestationAction";
-import { deconstructMemberReceiptAttestationData } from "@/utils/attest/member/receipt/deconstructMemberAttestationData";
-import { attestMemberReceipt } from "@/utils/attest/member/receipt/attestMemberReceipt";
+import { deconstructMemberReceiptAttestationData } from "@/utils/attestation/member/receipt/deconstructMemberReceiptAttestationData";
+import { attest } from "@/utils/attestation/attest";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { useDecodeMemberInvoiceAttestationData } from "@/hooks/attestations/useDecodeMemberInvoiceAttestationData";
@@ -14,17 +14,23 @@ import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationDat
 import { useState } from "react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
-import { calculateScore } from "@/utils/attest/calculateScore";
+import { calculateScore } from "@/utils/attestation/calculateScore";
+import { deconstructMemberCreditScoreAttestationData } from "@/utils/attestation/member/creditScore/deconstructMemberCreditScoreAttestationData";
+import { revoke } from "@/utils/attestation/revoke";
+import { postMemberCreditScoreAttestationAction } from "@/app/actions/attestation/postMemberCreditScoreAttestationAction";
+import { OffchainMemberCreditScoreAttestation } from "@/hooks/attestations/useGetMemberCreditScoreAttestation";
 
 interface InvoiceProps {
     address: string | undefined
     memberInvoiceAttestation: OffchainMemberInvoiceAttestation
+    memberCreditScoreAttestation: OffchainMemberCreditScoreAttestation
     currencyRate: CurrencyRate
     getBackMemberInvoiceAttestations: () => Promise<void>
     getBackMemberReceiptAttestations: () => Promise<void>
+    getBackMemberCreditScoreAttestation: () => Promise<void>
 }
 
-export function Invoice ({ address, memberInvoiceAttestation, currencyRate, getBackMemberInvoiceAttestations, getBackMemberReceiptAttestations }: InvoiceProps) {
+export function Invoice ({ address, memberInvoiceAttestation, memberCreditScoreAttestation, currencyRate, getBackMemberInvoiceAttestations, getBackMemberReceiptAttestations, getBackMemberCreditScoreAttestation }: InvoiceProps) {
     const [loading, setLoading] = useState(false)
 
     const {user} = usePrivy();
@@ -56,13 +62,26 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate, getB
         //calulate score
         const score = calculateScore(memberInvoiceAttestation.createdAt)
         //deconstruct attestation data
-        const deconstructedAttestationData = await deconstructMemberReceiptAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, score )
-        const receipt = await attestMemberReceipt(deconstructedAttestationData)
-        if (receipt) {
-            await postMemberReceiptAttestationAction(address!, memberInvoiceAttestation.memberInvoiceAttestationID, receipt?.attestationId, memberInvoiceAttestation.amount, currencyRate?.currency, memberInvoiceAttestation.week, 7 )
+        const deconstructedAttestationData = await deconstructMemberReceiptAttestationData(memberInvoiceAttestation.memberInvoiceAttestationID, recepient, (Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100), currencyRate?.currency, memberInvoiceAttestation.week, score )
+        const memberReceiptAttested = await attest(deconstructedAttestationData)
+        if (memberReceiptAttested) {
+            //post receipt attestation offchain
+            await postMemberReceiptAttestationAction( address!, memberInvoiceAttestation.memberInvoiceAttestationID, memberReceiptAttested?.attestationId, (Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100), currencyRate?.currency, memberInvoiceAttestation.week, score )
+            //revoke previous credit score attestation
+            const revokeMemberCreditScoreAttestation = await revoke(memberCreditScoreAttestation.memberCreditScoreAttestationID)
+            if (revokeMemberCreditScoreAttestation) {
+                //create new credit score attestation
+                const deconstructedCreditScoreAttestationData = await deconstructMemberCreditScoreAttestationData( recepient, (memberCreditScoreAttestation.score + score), (memberCreditScoreAttestation.paidWeeks + 1), memberCreditScoreAttestation.invoicedWeeks )
+                const memberCreditScoreAttested = await attest(deconstructedCreditScoreAttestationData)
+                if (memberCreditScoreAttested) {
+                    await postMemberCreditScoreAttestationAction( address!, memberCreditScoreAttested?.attestationId, (memberCreditScoreAttestation.score + score), (memberCreditScoreAttestation.paidWeeks + 1) )
+                }
+            }
         }
         await getBackMemberInvoiceAttestations()
         await getBackMemberReceiptAttestations()
+        await getBackMemberCreditScoreAttestation()
+
         setLoading(false)
     };
       
@@ -93,7 +112,7 @@ export function Invoice ({ address, memberInvoiceAttestation, currencyRate, getB
                 </div>
                 <Button
                     disabled={loading}
-                    className="max-w-[10rem]"
+                    className="w-36"
                     onClick={()=>{
                         payMembershipDues()
                     }}

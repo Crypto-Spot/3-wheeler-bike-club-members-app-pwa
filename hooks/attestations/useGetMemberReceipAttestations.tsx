@@ -17,7 +17,7 @@ export const useGetMemberReceiptAttestations = (address: string| undefined) => {
     const [error, setError] = useState<any | null>(null)
 
     useEffect (() =>{
-        async function getReceiptAttestations() {
+        async function getMemberReceiptAttestations() {
             if (address) {
                 setLoading(true);
                 try {
@@ -30,7 +30,7 @@ export const useGetMemberReceiptAttestations = (address: string| undefined) => {
                 setLoading(false)
             }
         }
-        getReceiptAttestations()
+        getMemberReceiptAttestations()
     },[ address ])
 
     async function getBackMemberReceiptAttestations() {

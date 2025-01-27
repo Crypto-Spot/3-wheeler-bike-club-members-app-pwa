@@ -9,10 +9,10 @@ export async function deconstructMemberReceiptAttestationData( linkedAttestation
         week: week,
         score: score
     }
-    const deconstructedAttestationData: Attestation= {
+    const deconstructedMemberReceiptAttestationData: Attestation= {
         schemaId: (memberReceiptSchemaID), // The final number from our schema's ID.
         indexingValue: "0",
-        linkedAttestationId: linkedAttestationId, // We are not linking an attestation.
+        linkedAttestationId: linkedAttestationId, // We are linking an attestation.
         attestTimestamp: 0, // Will be generated for us.
         revokeTimestamp: 0, // Attestation is not revoked.
         attester: attester, // Alice's address.
@@ -23,5 +23,5 @@ export async function deconstructMemberReceiptAttestationData( linkedAttestation
         data: schemaData // The encoded schema data.
     }
 
-    return deconstructedAttestationData
+    return deconstructedMemberReceiptAttestationData
 }

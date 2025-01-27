@@ -11,6 +11,7 @@ import { Invoice } from "./invoice";
 import { Receipt } from "./receipt";
 import { useGetMemberInvoiceAttestations } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
 import { useGetMemberReceiptAttestations } from "@/hooks/attestations/useGetMemberReceipAttestations";
+import { useGetMemberCreditScoreAttestation } from "@/hooks/attestations/useGetMemberCreditScoreAttestation";
 
 
 export function Authorized() {
@@ -32,6 +33,10 @@ export function Authorized() {
 
     const { memberReceiptAttestations, loading: loadingMemberReceiptAttestations, getBackMemberReceiptAttestations } = useGetMemberReceiptAttestations( smartWallet?.address )
     console.log(memberReceiptAttestations)
+
+    
+    const { memberCreditScoreAttestation, loading: loadingMemberCreditScoreAttestation, getBackMemberCreditScoreAttestation } = useGetMemberCreditScoreAttestation( smartWallet?.address )
+    console.log(memberCreditScoreAttestation)
 
     
 
@@ -67,7 +72,21 @@ export function Authorized() {
                                         <div className="flex flex-col gap-2">
                                             <p>Credit Score</p>
                                             <div className="flex flex-col gap-2">
-                                                <p>750</p>
+                                                {
+                                                    memberCreditScoreAttestation == null && loadingMemberCreditScoreAttestation == true && (
+                                                        <p>Loading...</p>
+                                                    )
+                                                }
+                                                {
+                                                    memberCreditScoreAttestation == null && loadingMemberCreditScoreAttestation == false && (
+                                                        <p>0</p>
+                                                    )
+                                                }
+                                                {
+                                                    memberCreditScoreAttestation != null && (
+                                                        <p>{memberCreditScoreAttestation?.score}</p>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </TabsTrigger>
@@ -157,9 +176,11 @@ export function Authorized() {
                                                             key={memberInvoiceAttestation._id} 
                                                             address={smartWallet?.address} 
                                                             memberInvoiceAttestation={memberInvoiceAttestation} 
+                                                            memberCreditScoreAttestation={memberCreditScoreAttestation!}
                                                             currencyRate={currencyRate!}
                                                             getBackMemberInvoiceAttestations={getBackMemberInvoiceAttestations}
                                                             getBackMemberReceiptAttestations={getBackMemberReceiptAttestations}
+                                                            getBackMemberCreditScoreAttestation={getBackMemberCreditScoreAttestation}
                                                         />
                                                     ))
                                                 }
@@ -178,7 +199,7 @@ export function Authorized() {
                                     {
                                         memberReceiptAttestations == null && loadingMemberReceiptAttestations == false && (
                                             <>
-                                                <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
+                                                <p>Your membership receipts will appear here. Pay them on time for good credit standing</p>
                                             </>
                                         )
                                     }

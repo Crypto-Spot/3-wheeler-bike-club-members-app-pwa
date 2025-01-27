@@ -1,5 +1,5 @@
 
-import { getAttestation } from "@/utils/attest/getAttestation"
+import { getAttestation } from "@/utils/attestation/getAttestation"
 import { AttestationInfo } from "@ethsign/sp-sdk"
 import { useState, useEffect } from "react"
 
