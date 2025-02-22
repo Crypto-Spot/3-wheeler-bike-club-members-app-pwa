@@ -14,6 +14,9 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Countries } from "@/utils/constants/countries"
 import { setCustomPrivyMetadata } from "@/app/actions/privy/setCustomPrivyMetadata"
 import { Logout } from "./logout"
+import { deconstructMemberBadgeAttestationData } from "@/utils/attestation/member/badge/deconstructMemberBadgeAttestationData"
+import { attest } from "@/utils/attestation/attest"
+import { postMemberBadgeAttestationAction } from "@/app/actions/attestation/postMemberBadgeAttestationAction"
 
 
 
@@ -83,12 +86,34 @@ export function Profile () {
                 country,
             }
 
-            const member = await setCustomPrivyMetadata(did, privyData)
-            console.log(member)
-            
-            if (member?.customMetadata) {
-                window.location.href = "/dashboard"
+            // Deconstruct attestation data
+        const deconstructedMemberBadgeAttestationData = await deconstructMemberBadgeAttestationData(
+            [smartWallet?.address as string],
+            country, 
+            false,
+            false,
+            false,
+            0
+        )
+
+            const memberBadgeAttested = await attest(deconstructedMemberBadgeAttestationData)
+
+            if (memberBadgeAttested) {
+                await postMemberBadgeAttestationAction(
+                    smartWallet?.address as string,
+                    memberBadgeAttested.attestationId,
+                    country,
+                    0
+                )
+                const member = await setCustomPrivyMetadata(did, privyData)
+                console.log(member)
+                
+                if (member?.customMetadata) {
+                    window.location.href = "/dashboard"
             }
+            }
+
+            
             
             setLoading(false)
         } catch (error) {

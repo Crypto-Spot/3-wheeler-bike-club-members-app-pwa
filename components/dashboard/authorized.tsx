@@ -1,4 +1,4 @@
-import { Bike, Coins, Wallet } from "lucide-react";
+import { Caravan, Coins, Wallet } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -62,7 +62,7 @@ export function Authorized() {
                     <div className="">
                         <Card className="flex flex-col gap-2 items-center p-4 md:p-6">
                             <div className="flex flex-col items-center gap-5">
-                                <Bike size={66} />
+                                <Caravan size={66} />
                                 <div className="flex flex-col gap-2 items-center w-full max-w-96 text-center">
                                     <p className="text-3xl font-bold">Ownership</p>
                                     <p>Finance the ownership of your 3wheeler</p>

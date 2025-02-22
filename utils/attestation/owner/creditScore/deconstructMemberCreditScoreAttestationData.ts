@@ -1,20 +1,17 @@
 import { Attestation } from "@ethsign/sp-sdk"
 
-import { attester, memberBadgeSchemaID } from "@/utils/constants/addresses"
+import { attester } from "@/utils/constants/addresses"
+import { memberCreditScoreSchemaID } from "@/utils/constants/addresses"
 import { DataLocationOnChain } from "@ethsign/sp-sdk"
 
-export async function deconstructMemberBadgeAttestationData(recipients: string[], country: string, national: boolean, driver: boolean, guarantor: boolean, status: number ) {
+export async function deconstructMemberCreditScoreAttestationData( recipients: string[], score: number, paidWeeks: number, invoicedWeeks: number ) {
     const schemaData = {
-        country: country,
-        national: national,
-        driver: driver,
-        guarantor: guarantor,
-        status: status,
+        score: score,
+        paidWeeks: paidWeeks,
+        invoicedWeeks: invoicedWeeks,
     }
-
-
-    const deconstructedMemberBadgeAttestationData: Attestation= {
-        schemaId: (memberBadgeSchemaID), // The final number from our schema's ID.
+    const deconstructedMemberCreditScoreAttestationData: Attestation= {
+        schemaId: (memberCreditScoreSchemaID), // The final number from our schema's ID.
         indexingValue: "0",
         linkedAttestationId: null, // We are not linking an attestation.
         attestTimestamp: 0, // Will be generated for us.
@@ -26,5 +23,5 @@ export async function deconstructMemberBadgeAttestationData(recipients: string[]
         recipients: recipients, // Bob is our recipient.
         data: schemaData // The encoded schema data.
     }   
-    return deconstructedMemberBadgeAttestationData
+    return deconstructedMemberCreditScoreAttestationData
 }

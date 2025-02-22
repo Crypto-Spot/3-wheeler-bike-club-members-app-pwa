@@ -3,11 +3,21 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { Authorized } from "./authorized";
 import { Unauthorized } from "./unauthorized";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 
 
 export function Wrapper() {
-  const { ready, authenticated } = usePrivy()
+  const { user, ready, authenticated } = usePrivy()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (ready && authenticated && !user?.customMetadata) {
+            router.replace("/profile")
+        }
+    }, [ready, authenticated, router, user?.customMetadata])
+    
   return (
     <>
       {

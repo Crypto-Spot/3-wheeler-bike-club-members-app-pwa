@@ -1,5 +1,5 @@
 "use client"
-import { Bike, Coins, Home, Settings, Wallet } from "lucide-react"
+import { Caravan, Coins, Home, Settings, Wallet } from "lucide-react"
 import {
     Sidebar,
     SidebarContent,
@@ -116,7 +116,7 @@ export function Menu() {
                       asChild
                     >
                       <div className="flex items-center gap-2">
-                        <Bike size={18} color="gold"/>
+                        <Caravan size={18} color="gold"/>
                         <span className="text-base font-semibold">Ownership</span>
                       </div>
                     </SidebarMenuButton>

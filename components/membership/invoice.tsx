@@ -36,7 +36,7 @@ export function Invoice ({ memberInvoiceAttestation, currencyRate, afterPaymentS
     const config : PaystackProps = {
         reference: memberInvoiceAttestation.memberInvoiceAttestationID,
         email: user!.email!.address!,
-        amount: Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        amount: Math.ceil(Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
         currency: currencyRate?.currency,
         channels: ['card', 'mobile_money'],
