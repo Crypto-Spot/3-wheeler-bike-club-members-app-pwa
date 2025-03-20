@@ -1,4 +1,4 @@
-export function calculateScore(createdAt: string) {   
+export function calculateMemberScore(createdAt: string) {   
     //asumes UTC time and friday 12pm is the start of the week
     //ignore day of the week comment if start of week is different
     const memberInvoiceDate = new Date(createdAt);
@@ -25,4 +25,24 @@ export function calculateScore(createdAt: string) {
         default: // Late payment (after next Friday)
             return 25;
     }
+};
+
+
+export function calculateOwnershipScore(due: Date) {   
+    const dueDate = new Date(due);
+    const currentDate = new Date();
+    const diffInHours = Math.floor((currentDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60));
+
+    // Payment is late (after due date)
+    if (diffInHours > 0) {
+        return 25;
+    }
+
+    // Within last 48 hours before due date
+    if (diffInHours >= -48) {
+        return 200;
+    }
+
+    // Any time before the last 48 hours
+    return 300;
 };

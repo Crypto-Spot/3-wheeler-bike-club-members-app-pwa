@@ -1,5 +1,5 @@
 import { usePrivy } from "@privy-io/react-auth";
-import { Coins } from "lucide-react";
+import { Banknote, Coins, HandCoins } from "lucide-react";
 import { Menu } from "../topnav/menu";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import Image from "next/image";
@@ -15,11 +15,11 @@ import { postMemberCreditScoreAttestationAction } from "@/app/actions/attestatio
 import { attest } from "@/utils/attestation/attest";
 import { deconstructMemberCreditScoreAttestationData } from "@/utils/attestation/member/creditScore/deconstructMemberCreditScoreAttestationData";
 import { revoke } from "@/utils/attestation/revoke";
-import { calculateScore } from "@/utils/attestation/calculateScore";
 import { postMemberReceiptAttestationAction } from "@/app/actions/attestation/postMemberReceiptAttestationAction";
 import { deconstructMemberReceiptAttestationData } from "@/utils/attestation/member/receipt/deconstructMemberReceiptAttestationData";
 import { useState } from "react";
-
+import { useGetMemberBadgeAttestation } from "@/hooks/attestations/useGetMemberBadgeAttestation";
+import { calculateMemberScore } from "@/utils/attestation/calculate";
 
 export function Authorized() {
 
@@ -46,6 +46,9 @@ export function Authorized() {
     const { memberCreditScoreAttestation, loading: loadingMemberCreditScoreAttestation, getBackMemberCreditScoreAttestation } = useGetMemberCreditScoreAttestation( smartWallet?.address )
     console.log(memberCreditScoreAttestation)
 
+    const { memberBadgeAttestation } = useGetMemberBadgeAttestation( smartWallet?.address )
+    console.log(memberBadgeAttestation)
+
     
 
     const country = Countries[user?.customMetadata?.country as keyof typeof Countries] as Country;
@@ -60,7 +63,7 @@ export function Authorized() {
         const recepient: string[] = []
         recepient.push(smartWallet.address)
         
-        const score = calculateScore(memberInvoiceAttestation.createdAt)
+        const score = calculateMemberScore(memberInvoiceAttestation.createdAt)
         
         if (!currencyRate?.rate || !currencyRate?.currency) return;
 
@@ -104,7 +107,7 @@ export function Authorized() {
                     recepient,
                     (memberCreditScoreAttestation.score + score),
                     (memberCreditScoreAttestation.paidWeeks + 1),
-                    memberCreditScoreAttestation.invoicedWeeks
+                    memberCreditScoreAttestation.invoicedWeeks,
                 )
 
                 const memberCreditScoreAttested = await attest(deconstructedCreditScoreAttestationData)
@@ -238,14 +241,15 @@ export function Authorized() {
                                         )
                                     }
                                     {
-                                        memberInvoiceAttestations == null && loadingMemberInvoiceAttestations == false && (
-                                            <>
-                                                <p>Your Weekly Membership Invoices will appear here. Pay them on time for good credit standing</p>
-                                            </>
+                                        memberInvoiceAttestations && memberInvoiceAttestations?.length == 0 && loadingMemberInvoiceAttestations == false && (
+                                            <div className="flex flex-col w-full gap-3 items-center">
+                                                <Banknote className="h-36 w-36" />
+                                                <p>Your Weekly Membership Invoices will appear here.</p>
+                                            </div>
                                         )
                                     }
                                     {
-                                        memberInvoiceAttestations != null && (
+                                        memberInvoiceAttestations && memberInvoiceAttestations?.length >= 1 && (
                                             <>
                                                 {
                                                     memberInvoiceAttestations?.map((memberInvoiceAttestation) => (
@@ -274,14 +278,15 @@ export function Authorized() {
                                         )
                                     }
                                     {
-                                        memberReceiptAttestations == null && loadingMemberReceiptAttestations == false && (
-                                            <>
-                                                <p>Your membership receipts will appear here. Pay them on time for good credit standing</p>
-                                            </>
+                                        memberReceiptAttestations && memberReceiptAttestations?.length == 0 && loadingMemberReceiptAttestations == false && (
+                                            <div className="flex flex-col w-full gap-3 items-center">
+                                                <HandCoins className="h-36 w-36" />
+                                                <p className="text-center">Your membership receipts will appear here.</p>
+                                            </div>
                                         )
                                     }
                                     {
-                                        memberReceiptAttestations != null && (
+                                        memberReceiptAttestations && memberReceiptAttestations?.length >= 1 && (
                                             <>
                                                 {
                                                     memberReceiptAttestations?.map((memberReceiptAttestation) => (

@@ -1,19 +1,17 @@
 import { Attestation } from "@ethsign/sp-sdk"
-import { attester, hirePurchaseReceiptSchemaID } from "@/utils/constants/addresses"
+import { attester, hirePurchaseCreditScoreSchemaID, hirePurchaseReceiptSchemaID } from "@/utils/constants/addresses"
 import { DataLocationOnChain } from "@ethsign/sp-sdk"
 
-export async function deconstructHirePurchaseReceiptAttestationData(recipients: string[], vin: string, receiptID: string, amount: number, currency: string, score: number, linkedAttestationId: string ) {
+export async function deconstructHirePurchaseCreditScoreAttestationData(recipients: string[], score: number, paidWeeks: number, invoicedWeeks: number, linkedAttestationId: string ) {
     const schemaData = {
-        vin: vin,
-        receiptID: receiptID,
-        amount: amount,
-        currency: currency,
         score: score,
+        paidWeeks: paidWeeks,
+        invoicedWeeks: invoicedWeeks
     }
 
 
-    const deconstructedHirePurchaseReceiptAttestationData: Attestation= {
-        schemaId: (hirePurchaseReceiptSchemaID), // The final number from our schema's ID.
+    const deconstructedHirePurchaseCreditScoreAttestationData: Attestation= {
+        schemaId: (hirePurchaseCreditScoreSchemaID), // The final number from our schema's ID.
         indexingValue: "0",
         linkedAttestationId: linkedAttestationId, // We are not linking an attestation.
         attestTimestamp: 0, // Will be generated for us.
@@ -25,5 +23,5 @@ export async function deconstructHirePurchaseReceiptAttestationData(recipients: 
         recipients: recipients, // Bob is our recipient.
         data: schemaData // The encoded schema data.
     }   
-    return deconstructedHirePurchaseReceiptAttestationData
+    return deconstructedHirePurchaseCreditScoreAttestationData
 }

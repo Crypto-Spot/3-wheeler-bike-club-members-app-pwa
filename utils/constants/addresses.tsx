@@ -5,6 +5,7 @@ export const memberBadgeSchemaID: `0x${string}` = "0x609"
 export const memberReceiptSchemaID: `0x${string}` = "0xa"
 export const memberCreditScoreSchemaID: `0x${string}` = "0x12"
 export const hirePurchaseReceiptSchemaID: `0x${string}` = "0xf"
+export const hirePurchaseCreditScoreSchemaID: `0x${string}` = "0x17bc"
 
 
 
