@@ -17,12 +17,13 @@ import Image from "next/image";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "../ui/avatar";
 import { usePrivy } from "@privy-io/react-auth";
-
+import { useSidebar } from "@/providers/SidebarContext";
 
 
 export function Menu() {
 
   const { user } = usePrivy()
+  const { setSidebarOpen } = useSidebar();
   
   const privyUserMetadata = user?.customMetadata
 
@@ -70,6 +71,7 @@ export function Menu() {
                     <SidebarMenuButton 
                       onClick={()=>{
                         router.push("/dashboard")
+                        setSidebarOpen(false)
                       }}
                       asChild
                     >
@@ -84,6 +86,7 @@ export function Menu() {
                     <SidebarMenuButton 
                       onClick={()=>{
                         router.push("/membership")
+                        setSidebarOpen(false)
                       }}
                       asChild
                     >
@@ -98,6 +101,7 @@ export function Menu() {
                     <SidebarMenuButton 
                       onClick={()=>{
                         router.push("/sponsorship")
+                        setSidebarOpen(false)
                       }}
                       asChild
                     >
@@ -111,7 +115,8 @@ export function Menu() {
                   <SidebarMenuItem>
                     <SidebarMenuButton 
                       onClick={()=>{
-                        router.push("/ownership")
+                        router.push("/ownership") 
+                        setSidebarOpen(false)
                       }}
                       asChild
                     >

@@ -15,17 +15,21 @@ import {
 } from "../ui/alert-dialog"
 import { Button } from "../ui/button"
 import { LogOut } from "lucide-react"
-
+import { useSidebar } from "@/providers/SidebarContext";
 
 export function Logout () {
     
     const { logout } = usePrivy()
+    const { setSidebarOpen } = useSidebar();
+
     const router = useRouter()
 
     
     return(
         <AlertDialog>
-            <AlertDialogTrigger asChild>
+            <AlertDialogTrigger asChild onClick={()=>{
+                setSidebarOpen(false)
+            }}>
                 <div className="flex items-center gap-2">
                     <LogOut size={18} color="gold"/>
                     <span className="text-base font-semibold">Log Out</span>

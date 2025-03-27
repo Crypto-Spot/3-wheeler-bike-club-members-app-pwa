@@ -4,10 +4,12 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { usePrivy } from "@privy-io/react-auth";
 import { shortenAddress } from "@/utils/shorten";
 import { useState } from "react";
-
+import { useSidebar } from "@/providers/SidebarContext";
 export function Menu() {
 
     const { user } = usePrivy()
+
+    const { sidebarOpen, setSidebarOpen } = useSidebar();
 
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
@@ -29,7 +31,7 @@ export function Menu() {
     return (
         <>
             <div className="flex shrink-0">
-                <SidebarTrigger/>
+                <SidebarTrigger onClick={() => setSidebarOpen(!sidebarOpen)}/>
             </div>
 
             <div className="flex justify-between w-full shrink-0">
