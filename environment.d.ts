@@ -11,6 +11,12 @@ declare global {
             ATTEST_PRIVATE_KEY: `0x${string}`
             BASE_NODE_API_KEY: string
             BASE_URL: string
+            ATTESTER: `0x${string}`
+            MEMBER_BADGE_SCHEMA_ID: `0x${string}`
+            MEMBER_RECEIPT_SCHEMA_ID: `0x${string}`
+            MEMBER_CREDIT_SCORE_SCHEMA_ID: `0x${string}`
+            HIRE_PURCHASE_RECEIPT_SCHEMA_ID: `0x${string}`
+            HIRE_PURCHASE_CREDIT_SCORE_SCHEMA_ID: `0x${string}`
         }
     }
 }

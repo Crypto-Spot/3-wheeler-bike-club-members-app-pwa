@@ -1,11 +1,11 @@
 import { SchemaItem } from "@ethsign/sp-sdk"
 
-export const attester: `0x${string}` = "0x56aD1c5746cdFCfA1E0B7960b9A95BECb57dF6f8"
-export const memberBadgeSchemaID: `0x${string}` = "0x253d"
-export const memberReceiptSchemaID: `0x${string}` = "0x254e"
-export const memberCreditScoreSchemaID: `0x${string}` = "0x2551"
-export const hirePurchaseReceiptSchemaID: `0x${string}` = "0x256a"
-export const hirePurchaseCreditScoreSchemaID: `0x${string}` = "0x256f"
+export const attester: `0x${string}` = process.env.ATTESTER as `0x${string}`
+export const memberBadgeSchemaID: `0x${string}` = process.env.MEMBER_BADGE_SCHEMA_ID as `0x${string}`
+export const memberReceiptSchemaID: `0x${string}` = process.env.MEMBER_RECEIPT_SCHEMA_ID as `0x${string}`
+export const memberCreditScoreSchemaID: `0x${string}` = process.env.MEMBER_CREDIT_SCORE_SCHEMA_ID as `0x${string}`
+export const hirePurchaseReceiptSchemaID: `0x${string}` = process.env.HIRE_PURCHASE_RECEIPT_SCHEMA_ID as `0x${string}`
+export const hirePurchaseCreditScoreSchemaID: `0x${string}` = process.env.HIRE_PURCHASE_CREDIT_SCORE_SCHEMA_ID as `0x${string}`
 
 
 
