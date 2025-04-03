@@ -5,7 +5,7 @@ import { usePaystackPayment } from "react-paystack"
 import { PaystackProps } from "react-paystack/dist/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
-import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
+//import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { OffchainHirePurchaseInvoiceAttestation } from "@/hooks/attestations/useGetHirePurchaseInvoiceAttestations";
@@ -26,8 +26,8 @@ export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, afterPa
     const {user} = usePrivy();
     console.log(currencyRate?.currency)
 
-    const { attestation } = useGetAttestationData( hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID )
-    console.log(attestation)
+    //const { attestation } = useGetAttestationData( hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID )
+    //console.log(attestation)
     
     //const { hirePurchaseInvoiceAttestationData } = useDecodeHirePurchaseInvoiceAttestationData( attestation?.data )
     //console.log(hirePurchaseInvoiceAttestationData)

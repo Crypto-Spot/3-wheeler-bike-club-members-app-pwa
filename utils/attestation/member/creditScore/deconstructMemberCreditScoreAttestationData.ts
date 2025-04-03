@@ -1,8 +1,5 @@
-import { Attestation } from "@ethsign/sp-sdk"
-
-import { attester } from "@/utils/constants/addresses"
-import { memberCreditScoreSchemaID } from "@/utils/constants/addresses"
-import { DataLocationOnChain } from "@ethsign/sp-sdk"
+import { Attestation, DataLocationOnChain } from "@ethsign/sp-sdk"
+import { attester, memberCreditScoreSchemaID } from "@/utils/constants/addresses"
 
 export async function deconstructMemberCreditScoreAttestationData( recipients: string[], score: number, paidWeeks: number, invoicedWeeks: number ) {
     const schemaData = {

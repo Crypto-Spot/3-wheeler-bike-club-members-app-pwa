@@ -35,7 +35,6 @@ export function Authorized() {
 
     const {user} = usePrivy();
     console.log(user)
-
     const [loading, setLoading] = useState(false)
     
     const [loadingInvoicePayment, setLoadingInvoicePayment] = useState(false)
@@ -134,7 +133,6 @@ export function Authorized() {
         const score = calculateOwnershipScore(hirePurchaseInvoiceAttestation.due)
 
         if (!currencyRate?.rate || !currencyRate?.currency) return;
-
         // Deconstruct attestation data
         const deconstructedHirePurchaseReceiptAttestationData = await deconstructHirePurchaseReceiptAttestationData(
             recepient,
