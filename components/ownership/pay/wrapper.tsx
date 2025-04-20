@@ -12,6 +12,9 @@ export function Wrapper({ reference }: { reference: string }) {
 
     const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
     console.log(smartWallet?.address);
+    
+    const privyUserMetadata = user?.customMetadata
+    console.log(privyUserMetadata)
 
     const [openRamp, setOpenRamp] = useState(false)
     const [hostedLink, setHostedLink] = useState("")
@@ -33,8 +36,8 @@ export function Wrapper({ reference }: { reference: string }) {
                     "GH",
                     user!.email!.address!,
                     reference,
-                    user?.customMetadata?.firstName as string,
-                    user?.customMetadata?.lastName as string
+                    privyUserMetadata?.firstname as string,
+                    privyUserMetadata?.lastname as string
                 )
                 setHostedLink(initiatedHostedPayment.hostedLink)
                 setOpenRamp(true)
