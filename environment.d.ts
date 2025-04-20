@@ -12,6 +12,7 @@ declare global {
             BASE_NODE_API_KEY: string
             BASE_URL: string
             ATTESTER: `0x${string}`
+            CASHRAMP_SECRET_KEY: string
             NEXT_PUBLIC_MEMBER_BADGE_SCHEMA_ID: `0x${string}`
             NEXT_PUBLIC_MEMBER_RECEIPT_SCHEMA_ID: `0x${string}`
             NEXT_PUBLIC_MEMBER_CREDIT_SCORE_SCHEMA_ID: `0x${string}`

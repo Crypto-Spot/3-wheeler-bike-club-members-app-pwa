@@ -1,14 +1,17 @@
-
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { usePaystackPayment } from "react-paystack"
-import { PaystackProps } from "react-paystack/dist/types";
 import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 //import { useGetAttestationData } from "@/hooks/attestations/useGetAttestationData";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { OffchainHirePurchaseInvoiceAttestation } from "@/hooks/attestations/useGetHirePurchaseInvoiceAttestations";
+import { initiateHostedPayment } from "@/utils/cashramp/initiateHostedPayment";
+import { useState } from "react";
+import { Cashramp } from "./cashramp";
+import { getCashrampAction } from "@/app/actions/cashramp/getCashrampAction";
+import { postCashrampAction } from "@/app/actions/cashramp/postCashrampAction";
+
 
 interface InvoiceProps {
     hirePurchaseInvoiceAttestation: OffchainHirePurchaseInvoiceAttestation
@@ -20,11 +23,17 @@ interface InvoiceProps {
     setInvoicePaymentLoadingId: (invoicePaymentLoadingId: string | null) => void
 }
 
-export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, afterPaymentSuccess, loadingInvoicePayment, setLoadingInvoicePayment, invoicePaymentLoadingId, setInvoicePaymentLoadingId }: InvoiceProps) {
+export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, /*afterPaymentSuccess,*/ loadingInvoicePayment, setLoadingInvoicePayment, invoicePaymentLoadingId, setInvoicePaymentLoadingId }: InvoiceProps) {
     
-
+    
     const {user} = usePrivy();
     console.log(currencyRate?.currency)
+
+    const [openCashramp, setOpenCashramp] = useState(false)
+    const [hostedLink, setHostedLink] = useState<string | null>(null)
+
+    const smartWallet = user?.linkedAccounts.find((account) => account.type === 'smart_wallet');
+    console.log(smartWallet?.address);
 
     //const { attestation } = useGetAttestationData( hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID )
     //console.log(attestation)
@@ -32,6 +41,9 @@ export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, afterPa
     //const { hirePurchaseInvoiceAttestationData } = useDecodeHirePurchaseInvoiceAttestationData( attestation?.data )
     //console.log(hirePurchaseInvoiceAttestationData)
 
+    
+
+    /*
     const config : PaystackProps = {
         reference: hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID,
         email: user!.email!.address!,
@@ -40,31 +52,41 @@ export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, afterPa
         currency: currencyRate?.currency,
         channels: ['card', 'mobile_money'],
     }
+    */
     
-    interface referenceTypes {
-        reference: string
-    }
-    const onSuccess = async (reference: referenceTypes) => {
-        // Implementation for whatever you want to do with reference and after success call.
-        console.log('reference', reference);
-        //TODO: Implement the logic for the payment success
-        await afterPaymentSuccess(hirePurchaseInvoiceAttestation)
+    
 
-        setLoadingInvoicePayment(false)
-    };
-      
-    const onClose = () => {
-        // implementation for whatever you want to do when the Paystack dialog closed.
-        console.log('closed');
-        setLoadingInvoicePayment(false)
-    };
-
-    const initPaystackPayment = usePaystackPayment(config);
-
-    const payOwnershipMicroPayment = () => {
+    const payOwnershipMicroPayment = async () => {
         setInvoicePaymentLoadingId(hirePurchaseInvoiceAttestation._id)
         setLoadingInvoicePayment(true)
-        initPaystackPayment({onSuccess, onClose})
+        const cashramp = await getCashrampAction(hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID)
+        if(cashramp){
+            console.log(cashramp.hostedLink)
+            setHostedLink(cashramp.hostedLink)
+            setOpenCashramp(true)
+        } else {
+            const initiatedHostedPayment = await initiateHostedPayment(
+                63,
+                "GH",
+                user!.email!.address!,
+                hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID,
+                user?.customMetadata?.firstName as string,
+                user?.customMetadata?.lastName as string
+            )
+            console.log(initiatedHostedPayment)
+            const postedCashramp = await postCashrampAction(
+                smartWallet?.address as string,
+                hirePurchaseInvoiceAttestation.hirePurchaseInvoiceAttestationID,
+                initiatedHostedPayment.hostedLink,
+                initiatedHostedPayment.id,
+                initiatedHostedPayment.status
+            )
+            if(postedCashramp){
+                console.log(initiatedHostedPayment.hostedLink)
+                setHostedLink(initiatedHostedPayment.hostedLink)
+                setOpenCashramp(true)
+            }
+        }
     }
     
 
@@ -113,6 +135,8 @@ export function Invoice ({ hirePurchaseInvoiceAttestation, currencyRate, afterPa
                     }
                 </Button>
             </Card>
+            {openCashramp && <Cashramp setOpenRamp={setOpenCashramp} hostedLink={hostedLink!} />}
+            
         </>
     )
 }

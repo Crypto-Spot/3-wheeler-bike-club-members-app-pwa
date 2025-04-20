@@ -1,9 +1,7 @@
 
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { usePaystackPayment } from "react-paystack"
-import { PaystackProps } from "react-paystack/dist/types";
-import { usePrivy } from "@privy-io/react-auth";
+//import { usePrivy } from "@privy-io/react-auth";
 import { CurrencyRate } from "@/hooks/currencyRate/useGetCurrencyRate";
 import { useDecodeMemberInvoiceAttestationData } from "@/hooks/attestations/useDecodeMemberInvoiceAttestationData";
 import { OffchainMemberInvoiceAttestation } from "@/hooks/attestations/useGetMemberInvoiceAttestations";
@@ -21,10 +19,10 @@ interface InvoiceProps {
     setInvoicePaymentLoadingId: (invoicePaymentLoadingId: string | null) => void
 }
 
-export function Invoice ({ memberInvoiceAttestation, currencyRate, afterPaymentSuccess, loadingInvoicePayment, setLoadingInvoicePayment, invoicePaymentLoadingId, setInvoicePaymentLoadingId }: InvoiceProps) {
+export function Invoice ({ memberInvoiceAttestation, currencyRate,/* afterPaymentSuccess,*/ loadingInvoicePayment, setLoadingInvoicePayment, invoicePaymentLoadingId, setInvoicePaymentLoadingId }: InvoiceProps) {
     
 
-    const {user} = usePrivy();
+    //const {user} = usePrivy();
     console.log(currencyRate?.currency)
 
     const { attestation } = useGetAttestationData( memberInvoiceAttestation.memberInvoiceAttestationID )
@@ -33,39 +31,14 @@ export function Invoice ({ memberInvoiceAttestation, currencyRate, afterPaymentS
     const { memberInvoiceAttestationData } = useDecodeMemberInvoiceAttestationData( attestation?.data )
     console.log(memberInvoiceAttestationData)
 
-    const config : PaystackProps = {
-        reference: memberInvoiceAttestation.memberInvoiceAttestationID,
-        email: user!.email!.address!,
-        amount: Math.ceil(Number(currencyRate?.rate) * memberInvoiceAttestation.amount * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-        publicKey: process.env.NEXT_PUBLIC_PAYSTACK_KEY,
-        currency: currencyRate?.currency,
-        channels: ['card', 'mobile_money'],
-    }
     
-    interface referenceTypes {
-        reference: string
-    }
-    const onSuccess = async (reference: referenceTypes) => {
-        // Implementation for whatever you want to do with reference and after success call.
-        console.log('reference', reference);
-        //TODO: Implement the logic for the payment success
-        await afterPaymentSuccess(memberInvoiceAttestation)
-
-        setLoadingInvoicePayment(false)
-    };
-      
-    const onClose = () => {
-        // implementation for whatever you want to do when the Paystack dialog closed.
-        console.log('closed');
-        setLoadingInvoicePayment(false)
-    };
-
-    const initPaystackPayment = usePaystackPayment(config);
+    
+    
+    
 
     const payMembershipDues = () => {
         setInvoicePaymentLoadingId(memberInvoiceAttestation._id)
         setLoadingInvoicePayment(true)
-        initPaystackPayment({onSuccess, onClose})
         
     }
     
