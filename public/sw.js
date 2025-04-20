@@ -1,1 +1,93 @@
-if(!self.define){let e,s={};const c=(c,n)=>(c=new URL(c+".js",n).href,s[c]||new Promise((s=>{if("document"in self){const e=document.createElement("script");e.src=c,e.onload=s,document.head.appendChild(e)}else e=c,importScripts(c),s()})).then((()=>{let e=s[c];if(!e)throw new Error(`Module ${c} didn’t register its module`);return e})));self.define=(n,a)=>{const i=e||("document"in self?document.currentScript.src:"")||location.href;if(s[i])return;let t={};const r=e=>c(e,i),o={module:{uri:i},exports:t,require:r};s[i]=Promise.all(n.map((e=>o[e]||r(e)))).then((e=>(a(...e),t)))}}define(["./workbox-f1770938"],(function(e){"use strict";importScripts(),self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"/_next/static/cW9csTVn97r_qgJW0MSCD/_buildManifest.js",revision:"a0ae24e7f29dd3809ab75b5dd91a79dc"},{url:"/_next/static/cW9csTVn97r_qgJW0MSCD/_ssgManifest.js",revision:"b6652df95db52feb4daf4eca35380933"},{url:"/_next/static/chunks/0e5ce63c-fcbd62882d001e12.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/12-fdb28cfea2b2cf9f.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/147-3094f6b14f28ec7d.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/190-1c913b1eeb416173.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/236-509387920662b456.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/26.6f8d45082ce75c06.js",revision:"6f8d45082ce75c06"},{url:"/_next/static/chunks/318.395d428cd1f11c35.js",revision:"395d428cd1f11c35"},{url:"/_next/static/chunks/360-8d707b05c7ee13e4.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/3a91511d-8c6991e761fab6b8.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/550.78062c8e0f31c7e4.js",revision:"78062c8e0f31c7e4"},{url:"/_next/static/chunks/577-7998726c513a91e9.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/5ab80550-b00268c3225d7e0f.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/648-421a48ea940bb9a8.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/698-06e0257499598e65.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/766-cc4b3dfc2c7e036b.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/835-56249fefa441816a.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/842-bb6fd5cd2c3e137c.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/855-2e404dc7921ad046.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/860-f29cbd497b14a735.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/864-b5565afb92427976.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/866.1c72dba058239720.js",revision:"1c72dba058239720"},{url:"/_next/static/chunks/889-50015467504e4c8d.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/9c560169-77513af67928d2dc.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/_not-found/page-9aa576eda6be3229.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/dashboard/page-529fa485e204e598.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/layout-d432256764431a86.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/membership/page-c973f03d7bd194a0.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/ownership/page-a6d97caab3000535.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/page-c196dce795cf65d5.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/profile/page-f726dd1d1c4884d4.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/app/sponsorship/page-048d3d90292fca49.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/fd9d1056-4dbce9af0b5236d8.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/framework-00a8ba1a63cfdc9e.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/main-44c900a5f5db7318.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/main-app-4e33afb6951c3881.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/pages/_app-037b5d058bd9a820.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/pages/_error-6ae619510b1539d6.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/chunks/polyfills-42372ed130431b0a.js",revision:"846118c33b2c0e922d7b3a7676f81f6f"},{url:"/_next/static/chunks/webpack-9d49ea39040610f7.js",revision:"cW9csTVn97r_qgJW0MSCD"},{url:"/_next/static/css/0cac64b1de9d0a34.css",revision:"0cac64b1de9d0a34"},{url:"/_next/static/media/4473ecc91f70f139-s.p.woff",revision:"78e6fc13ea317b55ab0bd6dc4849c110"},{url:"/_next/static/media/463dafcda517f24f-s.p.woff",revision:"cbeb6d2d96eaa268b4b5beb0b46d9632"},{url:"/icons/192x192.png",revision:"9f530621905c55316f50497516b2cc23"},{url:"/icons/384x384.png",revision:"e224dd9533d0798a1d8ea87f8f905695"},{url:"/icons/512x512.png",revision:"79fa6e6f331363b5323dbb7b2435b196"},{url:"/icons/logo.jpg",revision:"3b44b93e6569cbf6edcc4ec27a2d2d69"},{url:"/images/construction.svg",revision:"6d85cd7af75d42e4c372720f61f5a242"},{url:"/images/kekeFeatures.svg",revision:"93c100af9bb375e32e0a7d676e3200aa"},{url:"/images/kekeFeaturesLorry.svg",revision:"b1a4dd7f896a78dde38764cf65d86e69"},{url:"/images/kekeHero.svg",revision:"31dcfb6f012754a6bb97995910595bee"}],{ignoreURLParametersMatching:[/^utm_/,/^fbclid$/]}),e.cleanupOutdatedCaches(),e.registerRoute("/",new e.NetworkFirst({cacheName:"start-url",plugins:[{cacheWillUpdate:async({response:e})=>e&&"opaqueredirect"===e.type?new Response(e.body,{status:200,statusText:"OK",headers:e.headers}):e}]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:31536e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,new e.StaleWhileRevalidate({cacheName:"static-font-assets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,new e.StaleWhileRevalidate({cacheName:"static-image-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\/_next\/static.+\.js$/i,new e.CacheFirst({cacheName:"next-static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/image\?url=.+$/i,new e.StaleWhileRevalidate({cacheName:"next-image",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp3|wav|ogg)$/i,new e.CacheFirst({cacheName:"static-audio-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp4|webm)$/i,new e.CacheFirst({cacheName:"static-video-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:js)$/i,new e.StaleWhileRevalidate({cacheName:"static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:48,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:css|less)$/i,new e.StaleWhileRevalidate({cacheName:"static-style-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/data\/.+\/.+\.json$/i,new e.StaleWhileRevalidate({cacheName:"next-data",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:json|xml|csv)$/i,new e.NetworkFirst({cacheName:"static-data-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({sameOrigin:e,url:{pathname:s}})=>!(!e||s.startsWith("/api/auth/callback")||!s.startsWith("/api/"))),new e.NetworkFirst({cacheName:"apis",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:16,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({request:e,url:{pathname:s},sameOrigin:c})=>"1"===e.headers.get("RSC")&&"1"===e.headers.get("Next-Router-Prefetch")&&c&&!s.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages-rsc-prefetch",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({request:e,url:{pathname:s},sameOrigin:c})=>"1"===e.headers.get("RSC")&&c&&!s.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages-rsc",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:{pathname:e},sameOrigin:s})=>s&&!e.startsWith("/api/")),new e.NetworkFirst({cacheName:"pages",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({sameOrigin:e})=>!e),new e.NetworkFirst({cacheName:"cross-origin",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:3600})]}),"GET")}));
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-7144475a'], (function (workbox) { 'use strict';
+
+  importScripts();
+  self.skipWaiting();
+  workbox.clientsClaim();
+  workbox.registerRoute("/", new workbox.NetworkFirst({
+    "cacheName": "start-url",
+    plugins: [{
+      cacheWillUpdate: async ({
+        response: e
+      }) => e && "opaqueredirect" === e.type ? new Response(e.body, {
+        status: 200,
+        statusText: "OK",
+        headers: e.headers
+      }) : e
+    }]
+  }), 'GET');
+  workbox.registerRoute(/.*/i, new workbox.NetworkOnly({
+    "cacheName": "dev",
+    plugins: []
+  }), 'GET');
+
+}));
+//# sourceMappingURL=sw.js.map

@@ -1,7 +1,6 @@
 "use server"
 
 import axios from "axios";
-import { User } from "@privy-io/server-auth";
 
 
 

@@ -1,21 +1,22 @@
 import { Minimize2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 interface CashrampProps {
-    setOpenRamp: (openRamp : boolean) => void
-    hostedLink: string
+    hostedLink: string | undefined
 }
 
-export function Cashramp({ setOpenRamp, hostedLink } : CashrampProps) {
+export function Cashramp({ hostedLink } : CashrampProps) {
 
-        
+    const router = useRouter()
+
     return (
         <main className="fixed flex flex-col z-20 bg-gray-900/25 w-screen h-screen items-center justify-center top-0 left-0 right-0 bottom-0 backdrop-blur-[0.666px]">
 
             <div className="w-full h-full relative">
                 <div
                     onClick={async()=>{
-                        setOpenRamp(false)
+                        router.push("/ownership")
                     }}
                     className="absolute cursor-pointer p-5 top-0 right-0"
                 >
