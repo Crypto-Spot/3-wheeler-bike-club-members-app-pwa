@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 3WB Members App PWA
 
-## Getting Started
+A Progressive Web App built with Next.js 14 for 3WB members to manage memberships, payments, and credit scoring both online and offline.
 
-First, run the development server:
+## 🚀 Core Features
+
+- **PWA Ready**: Installable, offline caching, and seamless updates via service worker.  
+- **Member Dashboard**: View membership badges, on-chain credit scores, and payment history.  
+- **On-Chain & Off-Chain Payments**: Pay dues via Paystack or ERC20 stablecoins through Celo wallet integration.  
+- **Badges & Receipts**: Fetch/render attestation badges and payment receipts from Celo schemas.  
+- **Push Notifications**: Browser reminders for upcoming payments.  
+- **Responsive & Accessible UI**: Built with Tailwind CSS and Radix UI.
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)  
+- **Language**: TypeScript, React 18  
+- **PWA**: @ducanh2912/next-pwa  
+- **UI**: Radix UI, Tailwind CSS  
+- **State/Data**: React Query & Zod validation  
+- **Auth/Payments**: Privy, CashRamp, Stripe  
+- **Blockchain**: Sign Protocol Wagmi & Viem for Celo wallet  
+
+## 📦 Getting Started
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/3-Wheeler-Bike-Club/3-wheeler-bike-club-members-app-pwa.git
+   cd 3-wheeler-bike-club-members-app-pwa
+   ```
+
+2. **Install dependencies**  
+   ```bash
+   npm ci
+   # or yarn
+   ```
+
+3. **Configure environment**  
+   Create a `.env.local` file in root with:
+   ```env
+   NEXT_PUBLIC_PRIVY_APP_ID=...  
+   NEXT_PUBLIC_PAYSTACK_KEY=...  
+   PRIVY_APP_SECRET=...  
+   PRIVATE_KEY=0x...  
+   WHEELER_API_KEY=...  
+   ATTEST_PRIVATE_KEY=0x...  
+   BASE_NODE_API_KEY=...  
+   BASE_URL=http://localhost:3000  
+   ATTESTER=0x...  
+   CASHRAMP_SECRET_KEY=...  
+   NEXT_PUBLIC_MEMBER_BADGE_SCHEMA_ID=0x...  
+   NEXT_PUBLIC_MEMBER_RECEIPT_SCHEMA_ID=0x...  
+   NEXT_PUBLIC_MEMBER_CREDIT_SCORE_SCHEMA_ID=0x...  
+   NEXT_PUBLIC_HIRE_PURCHASE_RECEIPT_SCHEMA_ID=0x...  
+   NEXT_PUBLIC_HIRE_PURCHASE_CREDIT_SCORE_SCHEMA_ID=0x...
+   ```
+
+4. **Run in development**  
+   ```bash
+   npm run dev
+   ```
+
+5. **Build & Start**  
+   ```bash
+   npm run build
+   npm start
+   ```
+
+## 📁 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+/
+├── app/                   # App Router (pages, API routes, manifest)
+│   ├── api/               # Member & payment REST endpoints
+│   ├── dashboard/         # Member dashboard pages
+│   ├── manifest.json      # PWA manifest
+│   └── layout.tsx         # Global layout & providers
+├── components/            # Reusable UI components
+├── hooks/                 # Custom React hooks
+├── lib/                   # Helper functions (wallet, data fetch)
+├── providers/             # React context providers
+├── public/                # Static assets & PWA icons
+├── utils/                 # Utilities & validators
+├── environment.d.ts       # Env var typings
+├── next.config.mjs        # Next.js + PWA plugin config
+├── tailwind.config.ts     # Tailwind CSS config
+└── package.json           # Project dependencies & scripts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🤝 Contributing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Fork the repo, create a branch, implement features/tests, and open a Pull Request with clear descriptions.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📄 License
 
-## Learn More
+This project is licensed under the MIT License. See [LICENSE](LICENSE).  
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
