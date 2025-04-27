@@ -1,6 +1,6 @@
 # 3WB Members App PWA
 
-A Progressive Web App built with Next.js 14 for 3WB members to manage memberships, payments, and credit scoring both online and offline.
+A Progressive Web App built with Next.js 14 for 3WB members to manage memberships, lease to own payments, and credit scoring to access governance over treasury.
 
 ## 🚀 Core Features
 
