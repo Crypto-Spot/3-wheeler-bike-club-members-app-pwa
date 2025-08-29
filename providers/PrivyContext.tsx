@@ -22,8 +22,8 @@ export function PrivyContext ({ children }: Props) {
                 /* Replace this with your desired appearance configuration */
                 appearance: {
                     theme: "dark",
-                    accentColor: "#E2C837",
-                    logo: "https://i.ibb.co/1R7dngG/3-Wheeler-Logo-Horizontal-4x.png",
+                    accentColor: "#F5CD1D",
+                    logo: "https://finance.3wb.club/icons/logo.png",
                 },
                 defaultChain: celo,
                 supportedChains: [celo],
